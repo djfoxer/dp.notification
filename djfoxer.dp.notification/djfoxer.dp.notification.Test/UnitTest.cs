@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using djfoxer.dp.notification.Core;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace djfoxer.dp.notification.Test
 {
@@ -17,7 +18,7 @@ namespace djfoxer.dp.notification.Test
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void GetNotification()
         {
 
 
@@ -32,7 +33,13 @@ namespace djfoxer.dp.notification.Test
                     );
             }).GetAwaiter().GetResult();
 
-
+            List<Notification> not = null;
+            Task.Run(async () =>
+            {
+                not = await logic.GetNotifications(
+                    cookie
+                    );
+            }).GetAwaiter().GetResult();
 
             Assert.AreNotEqual(cookie, string.Empty);
         }

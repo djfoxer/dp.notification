@@ -11,24 +11,23 @@ namespace djfoxer.dp.notification.Core
     {
         public string Id { get; set; }
 
+        public string PublicationId { get; set; }
+
+        public string Avatar { get; set; }
+
+        public string CustomText { get; set; }
+
         public string Title { get; set; }
 
         public string TargetUrl { get; set; }
 
-        public string AddedDate { get; set; }
+        public DateTime AddedDate { get; set; }
 
         public NotificationType TypeValue { get; set; }
 
         public NotificationStatus StatusValue { get; set; }
 
-        public int? TypeValueInt { get { return (int?)TypeValue; } }
+        public string UserName { get; set; }
 
-        //public bool IconUrlVisibility { get { return (TypeValue == NotificationType.Comment || TypeValue == NotificationType.CommentBlog); } }
-
-        public string MiddleTitle { get; set; }
-
-        public string AdditionalInfo { get; set; }
-
-        public string Icon { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,9 +59,56 @@ namespace djfoxer.dp.notification.Core
                 pageSource = sr.ReadToEnd();
             }
 
-            dynamic not = JsonConvert.DeserializeObject(pageSource);
+            var respList = (JObject)JsonConvert.DeserializeObject(pageSource);
+            List<Notification> notList = new List<Notification>();
 
-            return null;
+            if (respList.HasValues)
+            {
+                var c = respList.First.First;
+
+                for (int i = 0; i < c.Count(); i++)
+                {
+                    var ele = (JProperty)c.ElementAt(i);
+                    string json = ele.Value.ToString();
+                    Notification n = JsonConvert.DeserializeObject<Notification>(json);
+                    n.AddedDate = new DateTime(1970, 1, 1).AddMilliseconds((long)(((JValue)ele.Value["Data"]).Value));
+                    n.TypeValue = Enum.ParseToNotificationType(((JValue)ele.Value["Type"]).Value.ToString());
+                    n.PublicationId = ele.Name.Split(':')[0];
+                    n.Id = ele.Name.Split(':')[1];
+                    n.StatusValue = Enum.ParseToNotificationStatus((long)((JValue)ele.Value["Status"]).Value);
+                    notList.Add(n);
+                }
+            }
+            notList = notList.OrderBy(n => n.StatusValue).ThenByDescending(n => n.AddedDate).ToList();
+
+            return notList;
+        }
+
+        private async Task<bool> ChangeStatusNotify(string id, string cookie, string method)
+        {
+            var req = (HttpWebRequest)WebRequest.Create(Const.NotifyUrlWithTimeStamp);
+            req.Headers["Cookie"] = cookie;
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+
+            byte[] bytes = Encoding.UTF8.GetBytes(string.Format("{1}%5B%5D={0}", id, method));
+            using (Stream os = await req.GetRequestStreamAsync())
+            {
+                os.Write(bytes, 0, bytes.Length);
+            }
+            var resp = await req.GetResponseAsync();
+
+            return true;
+        }
+
+        public async Task<bool> ReaddNotify(string id, string cookie)
+        {
+            return await ChangeStatusNotify(id, cookie, "markAsRead");
+        }
+
+        public async Task<bool> DeleteNotify(string id, string cookie)
+        {
+            return await ChangeStatusNotify(id, cookie, "deleteNotify");
         }
 
     }

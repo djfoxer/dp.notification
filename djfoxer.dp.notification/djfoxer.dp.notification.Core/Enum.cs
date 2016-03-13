@@ -58,6 +58,10 @@ namespace djfoxer.dp.notification.Core
             {
                 return NotificationType.License;
             }
+            else if (typeString == "badges")
+            {
+                return NotificationType.Badges;
+            }
             else
             {
                 return NotificationType.Unknown;
@@ -93,6 +97,7 @@ namespace djfoxer.dp.notification.Core
             PrivateMsg = 7,
             Mention = 8,
             License = 9,
+            Badges = 10,
         }
 
         public enum NotificationStatus
