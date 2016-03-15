@@ -19,26 +19,39 @@ namespace djfoxer.dp.notification.Core
             string cookie = string.Empty;
 
             //get Cookie from old login page
-            request = (HttpWebRequest)WebRequest.Create(Const.OldLoginUrlWithTimeStamp);
+            request = WebRequest.Create(Const.OldLoginUrlWithTimeStamp);
             request.Method = "GET";
             response = await request.GetResponseAsync();
 
-            cookie = response.Headers["Set-cookie"].Split(';').FirstOrDefault();
+            cookie = response.Headers["Set-cookie"]?.Split(';')?.FirstOrDefault();
 
             //login
-            request = (HttpWebRequest)WebRequest.Create(Const.LoginUrl);
+            request = WebRequest.Create(Const.LoginUrl);
             request.Method = "POST";
             request.Headers["Cookie"] = cookie;
             request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-            byte[] bytes = Encoding.UTF8.GetBytes(
+            byte[] form = Encoding.UTF8.GetBytes(
                 "what=login&login=" + Uri.EscapeDataString(login)
                 + "&password=" + Uri.EscapeDataString(password) +
                 "&persistent=true");
             using (Stream os = await request.GetRequestStreamAsync())
             {
-                os.Write(bytes, 0, bytes.Length);
+                os.Write(form, 0, form.Length);
             }
-            response = await request.GetResponseAsync();
+
+            try
+            {
+                response = await request.GetResponseAsync();
+            }
+            catch (WebException e) when (((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return string.Empty;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
 
             return cookie;
         }

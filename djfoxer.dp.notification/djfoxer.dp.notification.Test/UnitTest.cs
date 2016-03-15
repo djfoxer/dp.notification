@@ -33,6 +33,9 @@ namespace djfoxer.dp.notification.Test
                     );
             }).GetAwaiter().GetResult();
 
+            Assert.AreNotEqual(cookie, string.Empty);
+            Assert.AreNotEqual(cookie, null);
+
             List<Notification> not = null;
             Task.Run(async () =>
             {
@@ -41,7 +44,7 @@ namespace djfoxer.dp.notification.Test
                     );
             }).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(cookie, string.Empty);
+
         }
     }
 }
