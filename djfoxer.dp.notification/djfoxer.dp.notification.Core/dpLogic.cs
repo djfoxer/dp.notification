@@ -100,7 +100,7 @@ namespace djfoxer.dp.notification.Core
 
         private async Task<bool> ChangeStatusNotify(string id, string cookie, string method)
         {
-            var request = WebRequest.Create(Const.NotifyUrlWithTimeStamp);
+            var request = WebRequest.Create(Const.NotifyUrlRaw);
             request.Headers["Cookie"] = cookie;
             request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
             request.Method = "POST";
@@ -115,7 +115,7 @@ namespace djfoxer.dp.notification.Core
             return true;
         }
 
-        public async Task<bool> ReaddNotify(string id, string cookie)
+        public async Task<bool> ReadNotify(string id, string cookie)
         {
             return await ChangeStatusNotify(id, cookie, "markAsRead");
         }

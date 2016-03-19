@@ -28,6 +28,14 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
+        public static string NotifyUrlRaw
+        {
+            get
+            {
+                return NotifyUrl;
+            }
+        }
+
         private static string _LoginUrl = "https://ssl.dobreprogramy.pl/Providers/LoginProvider.ashx";
 
         public static string LoginUrl

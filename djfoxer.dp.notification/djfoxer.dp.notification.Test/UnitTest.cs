@@ -47,7 +47,7 @@ namespace djfoxer.dp.notification.Test
 
             Task.Run(async () =>
             {
-                await logic.ReaddNotify(not.FirstOrDefault().Id, cookie);
+                await logic.ReadNotify(not.FirstOrDefault().Id, cookie);
             }).GetAwaiter().GetResult();
         }
     }
