@@ -61,7 +61,7 @@ namespace djfoxer.dp.notification.Core
             WebResponse response = null;
             WebRequest request = null;
 
-            request = (HttpWebRequest)WebRequest.Create(Const.NotifyUrlWithTimeStamp);
+            request = WebRequest.Create(Const.NotifyUrlWithTimeStamp);
             request.Headers["Cookie"] = cookie;
 
             response = await request.GetResponseAsync();
@@ -75,6 +75,7 @@ namespace djfoxer.dp.notification.Core
             var respList = (JObject)JsonConvert.DeserializeObject(pageSource);
             List<Notification> notList = new List<Notification>();
 
+
             if (respList.HasValues)
             {
                 var c = respList.First.First;
@@ -82,8 +83,8 @@ namespace djfoxer.dp.notification.Core
                 for (int i = 0; i < c.Count(); i++)
                 {
                     var ele = (JProperty)c.ElementAt(i);
-                    string json = ele.Value.ToString();
-                    Notification n = JsonConvert.DeserializeObject<Notification>(json);
+                    Notification n = JsonConvert.DeserializeObject<Notification>(ele.Value.ToString());
+
                     n.AddedDate = new DateTime(1970, 1, 1).AddMilliseconds((long)(((JValue)ele.Value["Data"]).Value));
                     n.TypeValue = Enum.ParseToNotificationType(((JValue)ele.Value["Type"]).Value.ToString());
                     n.PublicationId = ele.Name.Split(':')[0];
@@ -99,17 +100,17 @@ namespace djfoxer.dp.notification.Core
 
         private async Task<bool> ChangeStatusNotify(string id, string cookie, string method)
         {
-            var req = (HttpWebRequest)WebRequest.Create(Const.NotifyUrlWithTimeStamp);
-            req.Headers["Cookie"] = cookie;
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+            var request = WebRequest.Create(Const.NotifyUrlWithTimeStamp);
+            request.Headers["Cookie"] = cookie;
+            request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+            request.Method = "POST";
 
-            byte[] bytes = Encoding.UTF8.GetBytes(string.Format("{1}%5B%5D={0}", id, method));
-            using (Stream os = await req.GetRequestStreamAsync())
+            byte[] form = Encoding.UTF8.GetBytes(string.Format("{1}%5B%5D={0}", id, method));
+            using (Stream os = await request.GetRequestStreamAsync())
             {
-                os.Write(bytes, 0, bytes.Length);
+                os.Write(form, 0, form.Length);
             }
-            var resp = await req.GetResponseAsync();
+            var resesponse = await request.GetResponseAsync();
 
             return true;
         }

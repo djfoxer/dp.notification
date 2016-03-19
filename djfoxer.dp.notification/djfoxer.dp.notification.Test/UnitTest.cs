@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using djfoxer.dp.notification.Core;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace djfoxer.dp.notification.Test
 {
@@ -44,7 +45,10 @@ namespace djfoxer.dp.notification.Test
                     );
             }).GetAwaiter().GetResult();
 
-
+            Task.Run(async () =>
+            {
+                await logic.ReaddNotify(not.FirstOrDefault().Id, cookie);
+            }).GetAwaiter().GetResult();
         }
     }
 }
