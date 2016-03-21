@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace djfoxer.dp.notification.Core
 {
-    public class dpLogic
+    public class DpLogic
     {
         public async Task<string> GetSessionCookie(string login, string password)
         {
@@ -19,7 +19,7 @@ namespace djfoxer.dp.notification.Core
             string cookie = string.Empty;
 
             //get Cookie from old login page
-            request = WebRequest.Create(Const.OldLoginUrlWithTimeStamp);
+            request = WebRequest.Create(Const.UrlToGetCookie);
             request.Method = "GET";
             response = await request.GetResponseAsync();
 
@@ -29,7 +29,7 @@ namespace djfoxer.dp.notification.Core
             request = WebRequest.Create(Const.LoginUrl);
             request.Method = "POST";
             request.Headers["Cookie"] = cookie;
-            request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+            request.ContentType = Const.RequestContentType;
             byte[] form = Encoding.UTF8.GetBytes(
                 "what=login&login=" + Uri.EscapeDataString(login)
                 + "&password=" + Uri.EscapeDataString(password) +
@@ -89,11 +89,10 @@ namespace djfoxer.dp.notification.Core
                     n.TypeValue = Enum.ParseToNotificationType(((JValue)ele.Value["Type"]).Value.ToString());
                     n.PublicationId = ele.Name.Split(':')[0];
                     n.Id = ele.Name.Split(':')[1];
-                    n.StatusValue = Enum.ParseToNotificationStatus((long)((JValue)ele.Value["Status"]).Value);
                     notList.Add(n);
                 }
             }
-            notList = notList.OrderBy(n => n.StatusValue).ThenByDescending(n => n.AddedDate).ToList();
+            notList = notList.OrderBy(n => n.Status).ThenByDescending(n => n.AddedDate).ToList();
 
             return notList;
         }
@@ -102,7 +101,7 @@ namespace djfoxer.dp.notification.Core
         {
             var request = WebRequest.Create(Const.NotifyUrlRaw);
             request.Headers["Cookie"] = cookie;
-            request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+            request.ContentType = Const.RequestContentType;
             request.Method = "POST";
 
             byte[] form = Encoding.UTF8.GetBytes(string.Format("{1}%5B%5D={0}", id, method));

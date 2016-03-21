@@ -24,7 +24,7 @@ namespace djfoxer.dp.notification.Test
 
 
 
-            dpLogic logic = new dpLogic();
+            DpLogic logic = new DpLogic();
             string cookie = string.Empty;
             Task.Run(async () =>
             {
@@ -45,10 +45,12 @@ namespace djfoxer.dp.notification.Test
                     );
             }).GetAwaiter().GetResult();
 
-            Task.Run(async () =>
-            {
-                await logic.ReadNotify(not.FirstOrDefault().Id, cookie);
-            }).GetAwaiter().GetResult();
+            Assert.IsNotNull(not);
+
+            //Task.Run(async () =>
+            //{
+            //    await logic.ReadNotify(not.FirstOrDefault().Id, cookie);
+            //}).GetAwaiter().GetResult();
         }
     }
 }

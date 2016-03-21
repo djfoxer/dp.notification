@@ -8,17 +8,17 @@ namespace djfoxer.dp.notification.Core
 {
     public static class Const
     {
-        private static string _OldLoginUrl = "https://ssl.dobreprogramy.pl/Logowanie.html";
+        private const string _UrlToGetCookie = "http://www.dobreprogramy.pl/";
 
-        public static string OldLoginUrlWithTimeStamp
+        public static string UrlToGetCookie
         {
             get
             {
-                return _OldLoginUrl + "?v=" + GetCurrentDateInJsTimeStamp;
+                return _UrlToGetCookie + "?v=" + GetCurrentDateInJsTimeStamp;
             }
         }
 
-        private static string NotifyUrl = "http://www.dobreprogramy.pl/Providers/NotifyHelper.ashx";
+        private const string NotifyUrl = "http://www.dobreprogramy.pl/Providers/NotifyHelper.ashx";
 
         public static string NotifyUrlWithTimeStamp
         {
@@ -36,7 +36,7 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
-        private static string _LoginUrl = "https://ssl.dobreprogramy.pl/Providers/LoginProvider.ashx";
+        private const string _LoginUrl = "https://ssl.dobreprogramy.pl/Providers/LoginProvider.ashx";
 
         public static string LoginUrl
         {
@@ -45,6 +45,8 @@ namespace djfoxer.dp.notification.Core
                 return _LoginUrl + "?v=" + GetCurrentDateInJsTimeStamp;
             }
         }
+
+        public const string RequestContentType = "application/x-www-form-urlencoded; charset=UTF-8";
 
         public static double GetCurrentDateInJsTimeStamp
         {

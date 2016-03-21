@@ -25,7 +25,7 @@ namespace djfoxer.dp.notification.Core
 
         public NotificationType TypeValue { get; set; }
 
-        public NotificationStatus StatusValue { get; set; }
+        public NotificationStatus Status { get; set; }
 
         public string UserName { get; set; }
     }

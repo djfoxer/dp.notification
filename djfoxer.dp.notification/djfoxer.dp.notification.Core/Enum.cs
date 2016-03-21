@@ -11,76 +11,33 @@ namespace djfoxer.dp.notification.Core
 
         public static NotificationType ParseToNotificationType(string typeString)
         {
-            if (string.IsNullOrWhiteSpace(typeString))
-            {
-                return NotificationType.Unknown;
-            }
-
             typeString = typeString.ToLower();
-
-            if (typeString == "comment")
+            switch (typeString)
             {
-                return NotificationType.Comment;
-            }
-            else if (typeString == "comment_blog")
-            {
-                return NotificationType.CommentBlog;
-            }
-            else if (typeString == "program_update")
-            {
-                return NotificationType.ProgramUpdate;
-            }
-            else if (typeString == "contest")
-            {
-                return NotificationType.Contest;
-            }
-            else if (typeString == "friends_accept")
-            {
-                return NotificationType.FriendsAccept;
-            }
-            else if (typeString == "friends_invite")
-            {
-                return NotificationType.FriendsInvite;
-            }
-            else if (typeString == "blog_annotation")
-            {
-                return NotificationType.BlogAnnotation;
-            }
-            else if (typeString == "private_msg")
-            {
-                return NotificationType.PrivateMsg;
-            }
-            else if (typeString == "mention")
-            {
-                return NotificationType.Mention;
-            }
-            else if (typeString == "license")
-            {
-                return NotificationType.License;
-            }
-            else if (typeString == "badges")
-            {
-                return NotificationType.Badges;
-            }
-            else
-            {
-                return NotificationType.Unknown;
-            }
-        }
-
-        public static NotificationStatus ParseToNotificationStatus(long status)
-        {
-            if (status == 0)
-            {
-                return NotificationStatus.New;
-            }
-            else if (status == 1)
-            {
-                return NotificationStatus.Old;
-            }
-            else
-            {
-                return NotificationStatus.Unknown;
+                case "comment":
+                    return NotificationType.Comment;
+                case "comment_blog":
+                    return NotificationType.CommentBlog;
+                case "program_update":
+                    return NotificationType.ProgramUpdate;
+                case "contest":
+                    return NotificationType.Contest;
+                case "friends_accept":
+                    return NotificationType.FriendsAccept;
+                case "friends_invite":
+                    return NotificationType.FriendsInvite;
+                case "blog_annotation":
+                    return NotificationType.BlogAnnotation;
+                case "private_msg":
+                    return NotificationType.PrivateMsg;
+                case "mention":
+                    return NotificationType.Mention;
+                case "license":
+                    return NotificationType.License;
+                case "badges":
+                    return NotificationType.Badges;
+                default:
+                    return NotificationType.Unknown;
             }
         }
 

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using djfoxer.dp.notification.App.View;
+using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,19 +23,12 @@ namespace djfoxer.dp.notification.App
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    sealed partial class App
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
         public App()
         {
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
-                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
-                Microsoft.ApplicationInsights.WindowsCollectors.Session);
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -46,7 +42,7 @@ namespace djfoxer.dp.notification.App
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
@@ -75,10 +71,20 @@ namespace djfoxer.dp.notification.App
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(LoginPage), e.Arguments);
             }
             // Ensure the current window is active
             Window.Current.Activate();
+            DispatcherHelper.Initialize();
+
+            Messenger.Default.Register<NotificationMessageAction<string>>(
+                this,
+                HandleNotificationMessage);
+        }
+
+        private void HandleNotificationMessage(NotificationMessageAction<string> message)
+        {
+            message.Execute("Success (from App.xaml.cs)!");
         }
 
         /// <summary>
