@@ -11,6 +11,11 @@ namespace djfoxer.dp.notification.Core
 
         public static NotificationType ParseToNotificationType(string typeString)
         {
+            if (string.IsNullOrWhiteSpace(typeString))
+            {
+                return NotificationType.Unknown;
+            }
+
             typeString = typeString.ToLower();
             switch (typeString)
             {
