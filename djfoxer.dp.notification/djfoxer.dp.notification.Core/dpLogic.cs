@@ -7,74 +7,68 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Web.Http;
 
 namespace djfoxer.dp.notification.Core
 {
     public class DpLogic
     {
+
         public async Task<string> GetSessionCookie(string login, string password)
         {
-            WebResponse response = null;
-            WebRequest request = null;
-            string cookie = string.Empty;
+            HttpResponseMessage response = null;
+            HttpRequestMessage request = null;
 
-            //get Cookie from old login page
-            request = WebRequest.Create(Const.UrlToGetCookie);
-            request.Method = "GET";
-            response = await request.GetResponseAsync();
+            var httpFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+            httpFilter.CookieUsageBehavior = Windows.Web.Http.Filters.HttpCookieUsageBehavior.NoCookies;
 
-            cookie = response.Headers["Set-cookie"]?.Split(';')?.FirstOrDefault();
-
-            //login
-            request = WebRequest.Create(Const.LoginUrl);
-            request.Method = "POST";
-            request.Headers["Cookie"] = cookie;
-            request.ContentType = Const.RequestContentType;
-            byte[] form = Encoding.UTF8.GetBytes(
-                "what=login&login=" + Uri.EscapeDataString(login)
-                + "&password=" + Uri.EscapeDataString(password) +
-                "&persistent=true");
-            using (Stream os = await request.GetRequestStreamAsync())
+            using (var httpClient = new HttpClient(httpFilter))
             {
-                os.Write(form, 0, form.Length);
-            }
+                //response = await httpClient.GetAsync(new Uri(Const.UrlToGetCookie));
+                //cookie = response.Headers["Set-cookie"]?.Split(';')?.FirstOrDefault();
 
-            try
-            {
-                response = await request.GetResponseAsync();
-            }
-            catch (WebException e) when (((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return string.Empty;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+                request = new HttpRequestMessage(HttpMethod.Post, new Uri(Const.LoginUrl));
+                request.Content = new HttpFormUrlEncodedContent(new[] {
+                new KeyValuePair<string, string>("what", "login"),
+                new KeyValuePair<string, string>("login", login),
+                new KeyValuePair<string, string>("password", password),
+                new KeyValuePair<string, string>("persistent", "true"),
+                    });
+                //request.Headers["Cookie"] = cookie;
 
-
-            return cookie;
+                try
+                {
+                    response = await httpClient.SendRequestAsync(request);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+            return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok ? response.Headers["Set-cookie"]?.Split(';')?.FirstOrDefault() : null;
         }
 
         public async Task<List<Notification>> GetNotifications(string cookie)
         {
-            WebResponse response = null;
-            WebRequest request = null;
+            HttpResponseMessage response = null;
+            HttpRequestMessage request = null;
 
-            request = WebRequest.Create(Const.NotifyUrlWithTimeStamp);
-            request.Headers["Cookie"] = cookie;
+            //var httpFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+            //httpFilter.CookieUsageBehavior = Windows.Web.Http.Filters.HttpCookieUsageBehavior.Default;
 
-            response = await request.GetResponseAsync();
-
-            string pageSource;
-            using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+            using (var httpClient = new HttpClient())
             {
-                pageSource = sr.ReadToEnd();
+
+                request = new HttpRequestMessage(HttpMethod.Get, new Uri(Const.NotifyUrlWithTimeStamp));
+                request.Headers["Cookie"] = cookie;
+
+                response = await httpClient.SendRequestAsync(request);
+
             }
 
-            var respList = (JObject)JsonConvert.DeserializeObject(pageSource);
-            List<Notification> notList = new List<Notification>();
+            var respList = (JObject)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
 
+            List<Notification> notList = new List<Notification>();
 
             if (respList.HasValues)
             {
@@ -99,19 +93,22 @@ namespace djfoxer.dp.notification.Core
 
         private async Task<bool> ChangeStatusNotify(string id, string cookie, string method)
         {
-            var request = WebRequest.Create(Const.NotifyUrlRaw);
-            request.Headers["Cookie"] = cookie;
-            request.ContentType = Const.RequestContentType;
-            request.Method = "POST";
 
-            byte[] form = Encoding.UTF8.GetBytes(string.Format("{1}%5B%5D={0}", id, method));
-            using (Stream os = await request.GetRequestStreamAsync())
+            HttpResponseMessage response = null;
+            HttpRequestMessage request = null;
+
+            using (var httpClient = new HttpClient())
             {
-                os.Write(form, 0, form.Length);
-            }
-            var resesponse = await request.GetResponseAsync();
 
-            return true;
+                request = new HttpRequestMessage(HttpMethod.Post, new Uri(Const.NotifyUrlRaw));
+                request.Headers["Cookie"] = cookie;
+                request.Content = new HttpFormUrlEncodedContent(new[] {
+                new KeyValuePair<string, string>(method+"[]", id)
+            }); ;
+
+                response = await httpClient.SendRequestAsync(request);
+            }
+            return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
         }
 
         public async Task<bool> ReadNotify(string id, string cookie)

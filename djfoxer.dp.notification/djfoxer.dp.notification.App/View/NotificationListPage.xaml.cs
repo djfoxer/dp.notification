@@ -1,4 +1,5 @@
-﻿using System;
+﻿using djfoxer.dp.notification.App.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,11 +21,20 @@ namespace djfoxer.dp.notification.App.View
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NotyficationListPage : Page
+    public sealed partial class NotificationListPage 
     {
-        public NotyficationListPage()
+
+        public NotificationListViewModel Vm => (NotificationListViewModel)DataContext;
+
+        public NotificationListPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Vm.LoadNotyfication();
+            base.OnNavigatedTo(e);
         }
     }
 }

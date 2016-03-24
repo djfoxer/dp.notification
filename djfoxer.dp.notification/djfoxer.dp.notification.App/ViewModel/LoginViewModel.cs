@@ -27,9 +27,18 @@ namespace djfoxer.dp.notification.App.ViewModel
                     IsActive = false;
                     var loginResult = await _dataService.Login(TxtLogin, TxtPassword);
 
-                    var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
-                    await dialog.ShowMessage(loginResult ? "Logowanie udane" : "Błędny login/hasło", "Logowanie");
+                    if (loginResult)
+                    {
+                        _navigationService.NavigateTo(ViewModelLocator.NotificationListPageKey);
+                    }
+                    else
+                    {
+                        var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
+                        await dialog.ShowMessage("Błędny login/hasło", "Logowanie");
+
+                    }
                     IsActive = true;
+
 
                 }));
 
@@ -41,6 +50,7 @@ namespace djfoxer.dp.notification.App.ViewModel
         #region Service
 
         private readonly IDataService _dataService;
+        private readonly INavigationService _navigationService;
 
         #endregion
 
@@ -93,9 +103,11 @@ namespace djfoxer.dp.notification.App.ViewModel
         #region Ctor
 
         public LoginViewModel(
-            IDataService dataService)
+            IDataService dataService,
+            INavigationService navigationService)
         {
             _dataService = dataService;
+            _navigationService = navigationService;
         }
 
         #endregion

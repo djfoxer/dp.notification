@@ -10,15 +10,34 @@ namespace djfoxer.dp.notification.App.Model
     public class DataService : IDataService
     {
 
-        #region Logic
+        #region Prop
 
-        private readonly DpLogic _dpLogic;
 
         #endregion
 
-        public DataService()
+        #region Logic
+
+        private readonly DpLogic _dpLogic;
+        private readonly IStorageService _storageService;
+
+        #endregion
+
+        public DataService(IStorageService storageService)
         {
             _dpLogic = new DpLogic();
+            _storageService = storageService;
+        }
+
+        public async Task<List<Notification>> GetNotifications()
+        {
+            var user = _storageService.GetUser();
+            if (user == null)
+            {
+                return null;
+            }
+            var notifications = await _dpLogic.GetNotifications(user.Cookie);
+
+            return notifications;
         }
 
         public async Task<bool> Login(string login, string password)
@@ -27,15 +46,19 @@ namespace djfoxer.dp.notification.App.Model
             {
                 string cookie = await _dpLogic.GetSessionCookie(login, password);
 
-                return !string.IsNullOrWhiteSpace(cookie);
+                if (!string.IsNullOrWhiteSpace(cookie))
+                {
+                    _storageService.SaveUser(login, cookie);
+                    return true;
+                }
+                return false;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
-
-
-
         }
+
+
     }
 }
