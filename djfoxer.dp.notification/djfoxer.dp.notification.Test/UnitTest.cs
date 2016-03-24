@@ -38,13 +38,13 @@ namespace djfoxer.dp.notification.Test
             Assert.AreNotEqual(cookie, null);
 
             //OLD
-            //List<Notification> not = null;
-            //Task.Run(async () =>
-            //{
-            //    not = await logic.GetNotifications(
-            //        cookie
-            //        );
-            //}).GetAwaiter().GetResult();
+            List<Notification> not = null;
+            Task.Run(async () =>
+            {
+                not = await logic.GetNotifications(
+                    cookie
+                    );
+            }).GetAwaiter().GetResult();
 
             //Assert.IsNotNull(not);
 
