@@ -8,6 +8,37 @@ namespace djfoxer.dp.notification.Core
 {
     public static class Const
     {
+
+        private const string _UrlDomain = "dobreprogramy.pl";
+
+        public static string UrlDomain
+        {
+            get
+            {
+                return _UrlDomain;
+            }
+        }
+
+        private const string _UrlDomain2 = "www.dobreprogramy.pl";
+
+        public static string UrlDomain2
+        {
+            get
+            {
+                return _UrlDomain2;
+            }
+        }
+
+        private const string _CookieSessionName = "ASP.NET_SessionId";
+
+        public static string CookieSessionName
+        {
+            get
+            {
+                return _CookieSessionName;
+            }
+        }
+
         private const string _UrlToGetCookie = "http://www.dobreprogramy.pl/";
 
         public static string UrlToGetCookie
@@ -18,31 +49,31 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
-        private const string NotifyUrl = "http://www.dobreprogramy.pl/Providers/NotifyHelper.ashx";
+        private const string UrlNotify = "http://www.dobreprogramy.pl/Providers/NotifyHelper.ashx";
 
-        public static string NotifyUrlWithTimeStamp
+        public static string UrlNotifyWithTimeStamp
         {
             get
             {
-                return NotifyUrl + "?ping=ping&_=" + GetCurrentDateInJsTimeStamp;
+                return UrlNotify + "?ping=ping&_=" + GetCurrentDateInJsTimeStamp;
             }
         }
 
-        public static string NotifyUrlRaw
+        public static string UrlNotifyRaw
         {
             get
             {
-                return NotifyUrl;
+                return UrlNotify;
             }
         }
 
-        private const string _LoginUrl = "https://ssl.dobreprogramy.pl/Providers/LoginProvider.ashx";
+        private const string _UrlLogin = "https://ssl.dobreprogramy.pl/Providers/LoginProvider.ashx";
 
-        public static string LoginUrl
+        public static string UrlLogin
         {
             get
             {
-                return _LoginUrl + "?v=" + GetCurrentDateInJsTimeStamp;
+                return _UrlLogin + "?v=" + GetCurrentDateInJsTimeStamp;
             }
         }
 

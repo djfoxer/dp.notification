@@ -4,17 +4,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:djfoxer.dp.notification.App.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
+    xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{Binding NotyficationList, Source={StaticResource Locator}}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
         <ListView ItemsSource="{Binding Notyfications}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Title}"></TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <Interactivity:Interaction.Behaviors>
+                            <Interactions:EventTriggerBehavior EventName="Tapped" SourceObject="{Binding ElementName=button}">
+                            </Interactions:EventTriggerBehavior>
+                        </Interactivity:Interaction.Behaviors>
+                        <SymbolIcon Symbol="{ Binding Icon }" />
+                        <Image Source="{ Binding TargetUrl}" />
+                        <StackPanel>
+                            <TextBlock Text="{Binding Title}"></TextBlock>
+                            <TextBlock Text="{Binding AddedDate }"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding UserName}"></TextBlock>
+                                <TextBlock Text="{Binding CustomText}">
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

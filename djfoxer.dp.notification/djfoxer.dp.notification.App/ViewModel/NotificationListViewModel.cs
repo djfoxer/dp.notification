@@ -1,6 +1,7 @@
 ﻿using djfoxer.dp.notification.App.Model;
 using djfoxer.dp.notification.Core;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using System;
@@ -9,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace djfoxer.dp.notification.App.ViewModel
 {
@@ -68,7 +70,25 @@ namespace djfoxer.dp.notification.App.ViewModel
 
             });
 
-            #endregion
         }
+        #endregion
+
+        #region Commands
+
+        private RelayCommand _openLink;
+
+        public RelayCommand OpenLink
+        {
+            get
+            {
+                return _openLink ?? (_openLink = new RelayCommand(async () =>
+                {
+                   await Launcher.LaunchUriAsync(new Uri("wp.pl"));
+                }));
+
+            }
+        }
+
+#endregion
     }
 }

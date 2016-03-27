@@ -44,7 +44,8 @@ namespace djfoxer.dp.notification.App.Model
         {
             try
             {
-                string cookie = await _dpLogic.GetSessionCookie(login, password);
+                _dpLogic.DeleteSessionCookie();
+                string cookie = await _dpLogic.SetSessionCookie(login, password);
 
                 if (!string.IsNullOrWhiteSpace(cookie))
                 {

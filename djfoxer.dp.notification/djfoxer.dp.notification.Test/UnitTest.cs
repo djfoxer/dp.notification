@@ -26,9 +26,12 @@ namespace djfoxer.dp.notification.Test
 
             DpLogic logic = new DpLogic();
             string cookie = string.Empty;
+
+            logic.DeleteSessionCookie();
+
             Task.Run(async () =>
             {
-                cookie = await logic.GetSessionCookie(
+                cookie = await logic.SetSessionCookie(
                     _testContext.Properties["dpTestLogin"].ToString(),
                     _testContext.Properties["dpTestPassword"].ToString()
                     );
