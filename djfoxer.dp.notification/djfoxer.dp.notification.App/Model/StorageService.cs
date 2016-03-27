@@ -21,9 +21,9 @@ namespace djfoxer.dp.notification.App.Model
         }
 
       
-        public void SaveUser(string login, string cookie)
+        public void SaveUser(string login)
         {
-            CurrentUser = new User() { Login = login, Cookie = cookie, LoginDate = DateTime.Now };
+            CurrentUser = new User() { Login = login, LoginDate = DateTime.Now };
         }
 
   

@@ -8,7 +8,7 @@ namespace djfoxer.dp.notification.App.Model
 {
     public interface IStorageService
     {
-        void SaveUser(string login, string cookie);
+        void SaveUser(string login);
 
         User GetUser();
     }

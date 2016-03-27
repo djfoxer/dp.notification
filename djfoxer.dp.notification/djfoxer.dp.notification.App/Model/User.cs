@@ -10,8 +10,6 @@ namespace djfoxer.dp.notification.App.Model
     {
         public string Login { get; set; }
 
-        public string Cookie { get; set; }
-
         public DateTime LoginDate { get; set; }
 
 

@@ -25,28 +25,25 @@ namespace djfoxer.dp.notification.Test
 
 
             DpLogic logic = new DpLogic();
-            string cookie = string.Empty;
+            bool success = false;
 
             logic.DeleteSessionCookie();
 
             Task.Run(async () =>
             {
-                cookie = await logic.SetSessionCookie(
+                success = await logic.SetSessionCookie(
                     _testContext.Properties["dpTestLogin"].ToString(),
                     _testContext.Properties["dpTestPassword"].ToString()
                     );
             }).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(cookie, string.Empty);
-            Assert.AreNotEqual(cookie, null);
+            Assert.AreNotEqual(success, false);
 
             //OLD
             List<Notification> not = null;
             Task.Run(async () =>
             {
-                not = await logic.GetNotifications(
-                    cookie
-                    );
+                not = await logic.GetNotifications();
             }).GetAwaiter().GetResult();
 
             //Assert.IsNotNull(not);

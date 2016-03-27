@@ -35,7 +35,7 @@ namespace djfoxer.dp.notification.App.Model
             {
                 return null;
             }
-            var notifications = await _dpLogic.GetNotifications(user.Cookie);
+            var notifications = await _dpLogic.GetNotifications();
 
             return notifications;
         }
@@ -45,11 +45,11 @@ namespace djfoxer.dp.notification.App.Model
             try
             {
                 _dpLogic.DeleteSessionCookie();
-                string cookie = await _dpLogic.SetSessionCookie(login, password);
+                bool success = await _dpLogic.SetSessionCookie(login, password);
 
-                if (!string.IsNullOrWhiteSpace(cookie))
+                if (success)
                 {
-                    _storageService.SaveUser(login, cookie);
+                    _storageService.SaveUser(login);
                     return true;
                 }
                 return false;

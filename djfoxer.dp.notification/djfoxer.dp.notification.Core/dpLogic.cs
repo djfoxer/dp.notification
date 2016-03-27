@@ -14,17 +14,15 @@ namespace djfoxer.dp.notification.Core
     public class DpLogic
     {
 
-        public async Task<string> SetSessionCookie(string login, string password)
+        public async Task<bool> SetSessionCookie(string login, string password)
         {
             HttpResponseMessage response = null;
             HttpRequestMessage request = null;
-            string cookie = null;
 
             using (var httpClient = new HttpClient())
             {
 
                 response = await httpClient.GetAsync(new Uri(Const.UrlToGetCookie));
-                cookie = response.Headers["Set-cookie"]?.Split(';')?.FirstOrDefault().Split('=').ElementAt(1);
 
                 request = new HttpRequestMessage(HttpMethod.Post, new Uri(Const.UrlLogin));
                 request.Content = new HttpFormUrlEncodedContent(new[] {
@@ -40,11 +38,11 @@ namespace djfoxer.dp.notification.Core
                 }
                 catch (Exception)
                 {
-                    return null;
+                    return false;
                 }
             }
 
-            return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok ? cookie : null;
+            return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
         }
 
         public void DeleteSessionCookie()
@@ -59,7 +57,7 @@ namespace djfoxer.dp.notification.Core
 
         }
 
-        public async Task<List<Notification>> GetNotifications(string cookie)
+        public async Task<List<Notification>> GetNotifications()
         {
             HttpResponseMessage response = null;
             HttpRequestMessage request = null;
@@ -95,7 +93,7 @@ namespace djfoxer.dp.notification.Core
             return notList;
         }
 
-        private async Task<bool> ChangeStatusNotify(string id, string cookie, string method)
+        private async Task<bool> ChangeStatusNotify(string id, string method)
         {
 
             HttpResponseMessage response = null;
@@ -113,14 +111,14 @@ namespace djfoxer.dp.notification.Core
             return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
         }
 
-        public async Task<bool> ReadNotify(string id, string cookie)
+        public async Task<bool> ReadNotify(string id)
         {
-            return await ChangeStatusNotify(id, cookie, "markAsRead");
+            return await ChangeStatusNotify(id, "markAsRead");
         }
 
-        public async Task<bool> DeleteNotify(string id, string cookie)
+        public async Task<bool> DeleteNotify(string id)
         {
-            return await ChangeStatusNotify(id, cookie, "deleteNotify");
+            return await ChangeStatusNotify(id, "deleteNotify");
         }
 
     }
