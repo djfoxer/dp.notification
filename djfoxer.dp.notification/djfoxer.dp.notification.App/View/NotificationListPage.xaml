@@ -15,7 +15,7 @@
         <ListView ItemsSource="{Binding Notyfications}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="20">
                         <Interactivity:Interaction.Behaviors>
                             <Interactions:EventTriggerBehavior EventName="Tapped" SourceObject="{Binding ElementName=button}">
                             </Interactions:EventTriggerBehavior>

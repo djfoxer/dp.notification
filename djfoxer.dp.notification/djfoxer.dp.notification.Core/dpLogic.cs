@@ -23,11 +23,11 @@ namespace djfoxer.dp.notification.Core
             {
                 request = new HttpRequestMessage(HttpMethod.Post, new Uri(Const.UrlLogin));
                 request.Content = new HttpFormUrlEncodedContent(new[] {
-                new KeyValuePair<string, string>("what", "login"),
-                new KeyValuePair<string, string>("login", login),
-                new KeyValuePair<string, string>("password", password),
-                new KeyValuePair<string, string>("persistent", "true"),
-                    });
+                    new KeyValuePair<string, string>("what", "login"),
+                    new KeyValuePair<string, string>("login", login),
+                    new KeyValuePair<string, string>("password", password),
+                    new KeyValuePair<string, string>("persistent", "true"),
+                });
 
                 try
                 {
@@ -47,10 +47,10 @@ namespace djfoxer.dp.notification.Core
             var httpFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
 
             httpFilter.CookieManager.DeleteCookie(new HttpCookie(Const.CookieSessionName, Const.UrlDomain, "/"));
-            httpFilter.CookieManager.DeleteCookie(new HttpCookie("NGDP_Auth", Const.UrlDomain, "/"));
+            httpFilter.CookieManager.DeleteCookie(new HttpCookie(Const.CookieSessionName2, Const.UrlDomain, "/"));
 
             httpFilter.CookieManager.DeleteCookie(new HttpCookie(Const.CookieSessionName, Const.UrlDomain2, "/"));
-            httpFilter.CookieManager.DeleteCookie(new HttpCookie("NGDP_Auth", Const.UrlDomain2, "/"));
+            httpFilter.CookieManager.DeleteCookie(new HttpCookie(Const.CookieSessionName2, Const.UrlDomain2, "/"));
 
         }
 
@@ -100,8 +100,8 @@ namespace djfoxer.dp.notification.Core
             {
                 request = new HttpRequestMessage(HttpMethod.Post, new Uri(Const.UrlNotifyRaw));
                 request.Content = new HttpFormUrlEncodedContent(new[] {
-                new KeyValuePair<string, string>(method+"[]", id)
-            }); ;
+                    new KeyValuePair<string, string>(method+"[]", id)
+                });
 
                 response = await httpClient.SendRequestAsync(request);
             }

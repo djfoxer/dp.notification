@@ -39,6 +39,16 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
+        private const string _CookieSessionName2 = "NGDP_Auth";
+
+        public static string CookieSessionName2
+        {
+            get
+            {
+                return _CookieSessionName2;
+            }
+        }
+
         private const string UrlNotify = "http://www.dobreprogramy.pl/Providers/NotifyHelper.ashx";
 
         public static string UrlNotifyWithTimeStamp
