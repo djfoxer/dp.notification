@@ -39,16 +39,6 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
-        private const string _UrlToGetCookie = "http://www.dobreprogramy.pl/";
-
-        public static string UrlToGetCookie
-        {
-            get
-            {
-                return _UrlToGetCookie + "?v=" + GetCurrentDateInJsTimeStamp;
-            }
-        }
-
         private const string UrlNotify = "http://www.dobreprogramy.pl/Providers/NotifyHelper.ashx";
 
         public static string UrlNotifyWithTimeStamp

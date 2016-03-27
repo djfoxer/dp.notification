@@ -21,9 +21,6 @@ namespace djfoxer.dp.notification.Core
 
             using (var httpClient = new HttpClient())
             {
-
-                response = await httpClient.GetAsync(new Uri(Const.UrlToGetCookie));
-
                 request = new HttpRequestMessage(HttpMethod.Post, new Uri(Const.UrlLogin));
                 request.Content = new HttpFormUrlEncodedContent(new[] {
                 new KeyValuePair<string, string>("what", "login"),
