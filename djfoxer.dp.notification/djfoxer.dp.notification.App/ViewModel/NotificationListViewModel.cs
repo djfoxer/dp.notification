@@ -10,7 +10,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Xml.Dom;
 using Windows.System;
+using Windows.UI.Notifications;
 
 namespace djfoxer.dp.notification.App.ViewModel
 {
@@ -65,7 +67,10 @@ namespace djfoxer.dp.notification.App.ViewModel
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
                     Notyfications = notifications;
+
+                    notifications.ToList().ForEach(n => _dataService.ShowToast(n));
                 });
+
 
 
             });
@@ -83,12 +88,12 @@ namespace djfoxer.dp.notification.App.ViewModel
             {
                 return _openLink ?? (_openLink = new RelayCommand(async () =>
                 {
-                   await Launcher.LaunchUriAsync(new Uri("wp.pl"));
+                    await Launcher.LaunchUriAsync(new Uri("wp.pl"));
                 }));
 
             }
         }
 
-#endregion
+        #endregion
     }
 }

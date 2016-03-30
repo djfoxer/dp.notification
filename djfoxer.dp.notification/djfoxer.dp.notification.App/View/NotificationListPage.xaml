@@ -10,28 +10,59 @@
     mc:Ignorable="d"
     DataContext="{Binding NotyficationList, Source={StaticResource Locator}}">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
-        <ListView ItemsSource="{Binding Notyfications}">
+    <Grid 
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <ListView 
+            ItemsSource="{Binding Notyfications}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="20">
-                        <Interactivity:Interaction.Behaviors>
+                    <Grid 
+                        Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <!--Interactivity:Interaction.Behaviors>
                             <Interactions:EventTriggerBehavior EventName="Tapped" SourceObject="{Binding ElementName=button}">
                             </Interactions:EventTriggerBehavior>
-                        </Interactivity:Interaction.Behaviors>
-                        <SymbolIcon Symbol="{ Binding Icon }" />
-                        <Image Source="{ Binding TargetUrl}" />
-                        <StackPanel>
-                            <TextBlock Text="{Binding Title}"></TextBlock>
-                            <TextBlock Text="{Binding AddedDate }"></TextBlock>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding UserName}"></TextBlock>
-                                <TextBlock Text="{Binding CustomText}">
-                                </TextBlock>
-                            </StackPanel>
+                            </Interactivity:Interaction.Behaviors> -->
+                        <Image 
+                            Source="{ Binding Avatar}" 
+                            Height="50" 
+                            Width="50" 
+                            Margin="0,0,10,0"
+                            Grid.Column="0"
+                            Grid.RowSpan="3"
+                            />
+                        <StackPanel  Grid.Column="1" Orientation="Vertical"
+                            Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <TextBlock
+                          
+                            Text="{Binding Title}" 
+                            TextWrapping="Wrap" 
+                            FontWeight="Bold" >
+
+                            </TextBlock>
                         </StackPanel>
-                    </StackPanel>
+                        <TextBlock 
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            TextWrapping="Wrap" 
+                            Text="{Binding AddedDate}" 
+                            FontWeight="Light" ></TextBlock>
+                        <TextBlock  
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            TextWrapping="Wrap" 
+                            Text="{Binding FullText}"></TextBlock>
+
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

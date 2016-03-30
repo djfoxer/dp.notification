@@ -124,6 +124,12 @@
     <None Include="djfoxer.dp.notification.App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\NotificationIco\cloud-up.png" />
+    <Content Include="Assets\NotificationIco\flower.png" />
+    <Content Include="Assets\NotificationIco\gift.png" />
+    <Content Include="Assets\NotificationIco\handshake.png" />
+    <Content Include="Assets\NotificationIco\profile-group.png" />
+    <Content Include="Assets\NotificationIco\star.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

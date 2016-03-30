@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,20 +47,20 @@ namespace djfoxer.dp.notification.Core
                         break;
                     case NotificationType.ProgramUpdate:
                         CustomText = "Program, który masz w ulubionych został zaktualizowany";
-                        FixAvatarUrl(Symbol.OutlineStar);
+                        FixAvatarUrl("cloud-up.png");
                         break;
                     case NotificationType.Contest:
-                        FixAvatarUrl(Symbol.Like);
+                        FixAvatarUrl("gift.png");
                         break;
                     case NotificationType.FriendsAccept:
                         Title = "Zaproszenie zaakceptowane";
                         CustomText = "zaakceptował Twoje zaproszenie do grona znajomych";
-                        FixAvatarUrl(Symbol.AddFriend);
+                        FixAvatarUrl("handshake.png");
                         break;
                     case NotificationType.FriendsInvite:
                         Title = "Zaproszenie do znajomych";
                         CustomText = "zaprosił Ciebie do grona znajomych";
-                        FixAvatarUrl(Symbol.People);
+                        FixAvatarUrl("profile-group.png");
                         break;
                     case NotificationType.BlogAnnotation:
                         break;
@@ -71,10 +72,12 @@ namespace djfoxer.dp.notification.Core
                         break;
                     case NotificationType.Badges:
                         CustomText = "Nowa odznaka!";
+                        FixAvatarUrl("flower.png");
                         break;
                     default:
                         break;
                 }
+
             }
         }
 
@@ -82,18 +85,26 @@ namespace djfoxer.dp.notification.Core
 
         public string UserName { get; set; }
 
-        private void FixAvatarUrl(Symbol? symbol = null)
+        public string FullText
         {
-            if (!string.IsNullOrWhiteSpace(Avatar) && !Avatar.StartsWith("http"))
+            get
             {
-                Avatar = "http:" + Avatar;
+                return UserName + (string.IsNullOrEmpty(UserName) ? CustomText : " " + CustomText);
+            }
+        }
+
+        private void FixAvatarUrl(string icoInput = null)
+        {
+            if (!string.IsNullOrWhiteSpace(Avatar) && !Avatar.EndsWith("svg"))
+            {
+                if (!Avatar.StartsWith("http"))
+                {
+                    Avatar = "http:" + Avatar;
+                }
             }
             else
             {
-                if (symbol.HasValue)
-                {
-                    Icon = symbol.Value;
-                }
+                Avatar = "file:///" + Path.GetFullPath("Assets/NotificationIco/" + (string.IsNullOrEmpty(icoInput) ? "star.png" : icoInput));
             }
         }
     }

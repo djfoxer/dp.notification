@@ -107,13 +107,17 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Task\BackgroundTaskManager.cs" />
+    <Compile Include="Task\GetNotificationBackgroundTask.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="DpLogic.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Task\MainBackgroundTask.cs" />
     <EmbeddedResource Include="Properties\djfoxer.dp.notification.Core.rd.xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

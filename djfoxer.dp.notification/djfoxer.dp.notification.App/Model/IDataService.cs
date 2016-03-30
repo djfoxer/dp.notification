@@ -13,5 +13,7 @@ namespace djfoxer.dp.notification.App.Model
         Task<bool> Login(string login, string password);
 
         Task<List<Notification>> GetNotifications();
+
+        void ShowToast(Notification notification);
     }
 }

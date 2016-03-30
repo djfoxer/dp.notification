@@ -1,4 +1,5 @@
 ﻿using djfoxer.dp.notification.App.View;
+using djfoxer.dp.notification.Core.Task;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using System;
@@ -10,6 +11,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -80,6 +82,9 @@ namespace djfoxer.dp.notification.App
             Messenger.Default.Register<NotificationMessageAction<string>>(
                 this,
                 HandleNotificationMessage);
+
+            //BackgroundTaskManager b = new BackgroundTaskManager();
+            //b.Register();
         }
 
         private void HandleNotificationMessage(NotificationMessageAction<string> message)

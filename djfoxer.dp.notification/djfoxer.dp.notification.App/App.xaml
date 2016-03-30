@@ -16,4 +16,5 @@
                              d:IsDataSource="True" />
         <helpers:NegationConverter x:Key="NegationConverter"  />
     </Application.Resources>
+    
 </Application>
