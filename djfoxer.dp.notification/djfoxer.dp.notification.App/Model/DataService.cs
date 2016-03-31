@@ -71,27 +71,27 @@ namespace djfoxer.dp.notification.App.Model
                 XmlDocument toastXml = new XmlDocument();
                 toastXml.LoadXml(
                     $@"
-                <toast activationType='foreground' launch='args'>
-                    <visual>
-                        <binding template='ToastGeneric'>
-                            <text></text>
-                            <text></text>
-                            <text></text>
-                            <image placement='appLogoOverride'></image>
-                        </binding>
-                    </visual>
-                    <actions>
-                        <action
-                            content='pokaż'
-                            activationType='foreground'
-                            arguments='show'/>
+                    <toast>
+                        <visual>
+                            <binding template='ToastGeneric'>
+                                <text></text>
+                                <text></text>
+                                <text></text>
+                                <image placement='appLogoOverride'></image>
+                            </binding>
+                        </visual>
+                        <actions>
+                            <action
+                                content='pokaż'
+                                activationType='foreground'
+                                arguments='show'/>
 
-                        <action
-                            content='anuluj'
-                            activationType='foreground'
-                            arguments='hide'/>
-                    </actions>
-                </toast>"
+                            <action
+                                content='anuluj'
+                                activationType='foreground'
+                                arguments='hide'/>
+                        </actions>
+                    </toast>"
                 );
 
                 // toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText03);
@@ -102,7 +102,8 @@ namespace djfoxer.dp.notification.App.Model
 
                 XmlNodeList toastTextAttributes = toastXml.GetElementsByTagName("text");
                 toastTextAttributes[0].InnerText = notification.Title;
-                toastTextAttributes[1].InnerText = notification.AddedDate.ToString("dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                toastTextAttributes[1].InnerText = notification.AddedDate.
+                                    ToString("dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                 toastTextAttributes[2].InnerText = notification.FullText;
 
                 toastTextAttributes = toastXml.GetElementsByTagName("actions");
@@ -119,7 +120,8 @@ namespace djfoxer.dp.notification.App.Model
         {
             if ((args as ToastActivatedEventArgs).Arguments == "show")
             {
-                string url = ((XmlElement)sender.Content.GetElementsByTagName("actions").First()).GetAttribute("url");
+                string url = ((XmlElement)sender.Content.GetElementsByTagName("actions").First())
+                            .GetAttribute("url");
                 if (!string.IsNullOrEmpty(url))
                 {
                     await Launcher.LaunchUriAsync(new Uri(url));

@@ -63,18 +63,17 @@ namespace djfoxer.dp.notification.Core
                         FixAvatarUrl("profile-group.png");
                         break;
                     case NotificationType.BlogAnnotation:
-                        break;
                     case NotificationType.PrivateMsg:
-                        break;
                     case NotificationType.Mention:
-                        break;
                     case NotificationType.License:
+                        FixAvatarUrl();
                         break;
                     case NotificationType.Badges:
                         CustomText = "Nowa odznaka!";
                         FixAvatarUrl("flower.png");
                         break;
                     default:
+                        FixAvatarUrl();
                         break;
                 }
 
