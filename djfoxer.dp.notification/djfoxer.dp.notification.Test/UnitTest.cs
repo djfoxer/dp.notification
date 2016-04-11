@@ -25,7 +25,7 @@ namespace djfoxer.dp.notification.Test
 
 
             DpLogic logic = new DpLogic();
-            bool success = false;
+            Tuple<bool,DateTime?> success = null;
 
             logic.DeleteSessionCookie();
 
@@ -37,7 +37,7 @@ namespace djfoxer.dp.notification.Test
                     );
             }).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(success, false);
+            Assert.AreNotEqual(success.Item1, false);
 
             //OLD
             List<Notification> not = null;

@@ -51,6 +51,7 @@ namespace djfoxer.dp.notification.App.ViewModel
 
         private readonly IDataService _dataService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
 
         #endregion
 
@@ -104,10 +105,12 @@ namespace djfoxer.dp.notification.App.ViewModel
 
         public LoginViewModel(
             IDataService dataService,
-            INavigationService navigationService)
+            INavigationService navigationService,
+            IDialogService dialogService)
         {
             _dataService = dataService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         #endregion

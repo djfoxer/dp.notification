@@ -64,8 +64,12 @@ namespace djfoxer.dp.notification.Core
                         break;
                     case NotificationType.BlogAnnotation:
                     case NotificationType.PrivateMsg:
-                    case NotificationType.Mention:
                     case NotificationType.License:
+                        FixAvatarUrl();
+                        break;
+                    case NotificationType.Mention:
+                        Title = "Użytkownik wspomniał o Tobie";
+                        CustomText = "oznaczył Ciebie w komentarzu";
                         FixAvatarUrl();
                         break;
                     case NotificationType.Badges:

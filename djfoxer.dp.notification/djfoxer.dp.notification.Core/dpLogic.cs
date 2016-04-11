@@ -14,7 +14,7 @@ namespace djfoxer.dp.notification.Core
     public class DpLogic
     {
 
-        public async Task<bool> SetSessionCookie(string login, string password)
+        public async Task<Tuple<bool, DateTime?>> SetSessionCookie(string login, string password)
         {
             HttpResponseMessage response = null;
             HttpRequestMessage request = null;
@@ -35,11 +35,14 @@ namespace djfoxer.dp.notification.Core
                 }
                 catch (Exception)
                 {
-                    return false;
+                    return new Tuple<bool, DateTime?>(false, null);
                 }
             }
 
-            return response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok;
+            var httpFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+            var expireDate = httpFilter.CookieManager.GetCookies(new Uri(Const.UrlFullAddress)).First().Expires ?? DateTime.Now;
+
+            return new Tuple<bool, DateTime?>(response.StatusCode == Windows.Web.Http.HttpStatusCode.Ok, expireDate.DateTime);
         }
 
         public void DeleteSessionCookie()

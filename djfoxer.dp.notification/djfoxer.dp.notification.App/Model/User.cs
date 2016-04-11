@@ -10,7 +10,9 @@ namespace djfoxer.dp.notification.App.Model
     {
         public string Login { get; set; }
 
-        public DateTime LoginDate { get; set; }
+        public List<string> NewNotyifications { get; set; }
+
+        public List<string> OldNotyifications { get; set; }
 
 
     }

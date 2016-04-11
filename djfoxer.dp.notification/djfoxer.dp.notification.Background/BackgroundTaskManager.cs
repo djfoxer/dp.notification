@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
 
-namespace djfoxer.dp.notification.Core.Task
+namespace djfoxer.dp.notification.Background
 {
-    public class BackgroundTaskManager
+    public sealed class BackgroundTaskManager
     {
 
 

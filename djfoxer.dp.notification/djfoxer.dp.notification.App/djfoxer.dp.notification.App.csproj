@@ -101,9 +101,11 @@
     </Compile>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Helpers\NegationConverter.cs" />
+    <Compile Include="Model\BaseStorageService.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\IDataService.cs" />
     <Compile Include="Model\IStorageService.cs" />
+    <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\StorageService.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -154,6 +156,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\djfoxer.dp.notification.Background\djfoxer.dp.notification.Background.csproj">
+      <Project>{86a66c04-f6b9-4036-85f1-89349262a1d6}</Project>
+      <Name>djfoxer.dp.notification.Background</Name>
+    </ProjectReference>
     <ProjectReference Include="..\djfoxer.dp.notification.Core\djfoxer.dp.notification.Core.csproj">
       <Project>{8e72d674-4ff5-4897-9f18-73f47049f9f7}</Project>
       <Name>djfoxer.dp.notification.Core</Name>

@@ -12,8 +12,15 @@ namespace djfoxer.dp.notification.App.Model
     {
         Task<bool> Login(string login, string password);
 
+        void Logout();
+
         Task<List<Notification>> GetNotifications();
 
+        List<Notification> SaveNotifications(List<Notification> notifications);
+
+
         void ShowToast(Notification notification);
+
+        void SetNotificationAsOld(string notificationId);
     }
 }

@@ -19,6 +19,16 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
+        private const string _UrlDomain3 = "http://www.dobreprogramy.pl/";
+
+        public static string UrlFullAddress
+        {
+            get
+            {
+                return _UrlDomain3;
+            }
+        }
+
         private const string _UrlDomain2 = "www.dobreprogramy.pl";
 
         public static string UrlDomain2
@@ -89,5 +99,7 @@ namespace djfoxer.dp.notification.Core
                 .TotalMilliseconds, 0);
             }
         }
+
+        public const string FileSettings = "settings.json";
     }
 }

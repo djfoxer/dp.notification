@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "djfoxer.dp.notification.App", "djfoxer.dp.notification.App\djfoxer.dp.notification.App.csproj", "{8D980713-7519-4D76-B107-984F12FE1041}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "djfoxer.dp.notification.Core", "djfoxer.dp.notification.Core\djfoxer.dp.notification.Core.csproj", "{8E72D674-4FF5-4897-9F18-73F47049F9F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "djfoxer.dp.notification.Test", "djfoxer.dp.notification.Test\djfoxer.dp.notification.Test.csproj", "{32C78CA8-FB24-49F0-936E-F5A82A0EC29C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "djfoxer.dp.notification.Background", "djfoxer.dp.notification.Background\djfoxer.dp.notification.Background.csproj", "{86A66C04-F6B9-4036-85F1-89349262A1D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,22 @@ Global
 		{32C78CA8-FB24-49F0-936E-F5A82A0EC29C}.Release|x86.ActiveCfg = Release|x86
 		{32C78CA8-FB24-49F0-936E-F5A82A0EC29C}.Release|x86.Build.0 = Release|x86
 		{32C78CA8-FB24-49F0-936E-F5A82A0EC29C}.Release|x86.Deploy.0 = Release|x86
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Debug|ARM.ActiveCfg = Debug|ARM
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Debug|ARM.Build.0 = Debug|ARM
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Debug|x64.ActiveCfg = Debug|x64
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Debug|x64.Build.0 = Debug|x64
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Debug|x86.ActiveCfg = Debug|x86
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Debug|x86.Build.0 = Debug|x86
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Release|ARM.ActiveCfg = Release|ARM
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Release|ARM.Build.0 = Release|ARM
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Release|x64.ActiveCfg = Release|x64
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Release|x64.Build.0 = Release|x64
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Release|x86.ActiveCfg = Release|x86
+		{86A66C04-F6B9-4036-85F1-89349262A1D6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

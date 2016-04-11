@@ -1,23 +1,16 @@
-﻿using djfoxer.dp.notification.App.View;
-using djfoxer.dp.notification.Core.Task;
+﻿using djfoxer.dp.notification.App.Model;
+using djfoxer.dp.notification.App.View;
+using djfoxer.dp.notification.App.ViewModel;
+using djfoxer.dp.notification.Background;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
+using Microsoft.Practices.ServiceLocation;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace djfoxer.dp.notification.App
@@ -68,12 +61,27 @@ namespace djfoxer.dp.notification.App
                 Window.Current.Content = rootFrame;
             }
 
+            bool loginAgain = false;
+
+            Task.Run(async () =>
+            {
+                var x = new ViewModelLocator();
+                loginAgain = await ServiceLocator.Current.GetInstance<IStorageService>().LoadLastUser();
+            }).Wait();
+
             if (rootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                if (loginAgain)
+                {
+                    rootFrame.Navigate(typeof(NotificationListPage), e.Arguments);
+                }
+                else
+                {
+                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                }
             }
             // Ensure the current window is active
             Window.Current.Activate();
@@ -83,9 +91,24 @@ namespace djfoxer.dp.notification.App
                 this,
                 HandleNotificationMessage);
 
-            //BackgroundTaskManager b = new BackgroundTaskManager();
-            //b.Register();
+            BackgroundTaskManager b = new BackgroundTaskManager();
+            b.Register();
+
+            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            //SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
         }
+
+        //private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        //{
+        //    Frame frame = Window.Current.Content as Frame;
+
+        //    if (frame.CurrentSourcePageType == typeof(NotificationListPage))
+        //    {
+        //        e.Handled = true;
+        //        ServiceLocator.Current.GetInstance<IDataService>().Logout();
+        //        ServiceLocator.Current.GetInstance<INavigationService>().NavigateTo(ViewModelLocator.LoginPageKey);
+        //    }
+        //}
 
         private void HandleNotificationMessage(NotificationMessageAction<string> message)
         {
@@ -115,5 +138,7 @@ namespace djfoxer.dp.notification.App
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+
     }
 }

@@ -10,11 +10,37 @@
     mc:Ignorable="d"
     DataContext="{Binding NotyficationList, Source={StaticResource Locator}}">
 
+    <Page.BottomAppBar>
+        <AppBar IsOpen="True" IsSticky="True">
+            <StackPanel Orientation="Horizontal">
+                <AppBarButton  Icon="BlockContact" Label="Wyloguj" >
+                    <Interactivity:Interaction.Behaviors>
+                        <Interactions:EventTriggerBehavior
+                            EventName="Click">
+                            <Interactions:InvokeCommandAction
+                                Command="{Binding Logout}"
+                                />
+                        </Interactions:EventTriggerBehavior>
+                    </Interactivity:Interaction.Behaviors>
+                </AppBarButton>
+            </StackPanel>
+        </AppBar>
+    </Page.BottomAppBar>
+
     <Grid 
         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <ListView 
-            ItemsSource="{Binding Notyfications}">
+        <ListView x:Name="list"
+            ItemsSource="{Binding Notifications}"
+                  SelectedItem="{Binding SelectedNotification, Mode=TwoWay}">
+            <Interactivity:Interaction.Behaviors>
+                <Interactions:EventTriggerBehavior
+                            EventName="Tapped">
+                    <Interactions:InvokeCommandAction
+                                Command="{Binding OpenLink}" 
+                                />
+                </Interactions:EventTriggerBehavior>
+            </Interactivity:Interaction.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid 
@@ -28,10 +54,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <!--Interactivity:Interaction.Behaviors>
-                            <Interactions:EventTriggerBehavior EventName="Tapped" SourceObject="{Binding ElementName=button}">
-                            </Interactions:EventTriggerBehavior>
-                            </Interactivity:Interaction.Behaviors> -->
+
                         <Image 
                             Source="{ Binding Avatar}" 
                             Height="50" 

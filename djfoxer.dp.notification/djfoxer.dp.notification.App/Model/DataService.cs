@@ -49,11 +49,11 @@ namespace djfoxer.dp.notification.App.Model
             try
             {
                 _dpLogic.DeleteSessionCookie();
-                bool success = await _dpLogic.SetSessionCookie(login, password);
+                Tuple<bool, DateTime?> loginValue = await _dpLogic.SetSessionCookie(login, password);
 
-                if (success)
+                if (loginValue.Item1)
                 {
-                    _storageService.SaveUser(login);
+                    _storageService.WriteUser(login, loginValue.Item2);
                     return true;
                 }
                 return false;
@@ -61,6 +61,34 @@ namespace djfoxer.dp.notification.App.Model
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public void Logout()
+        {
+            try
+            {
+                _dpLogic.DeleteSessionCookie();
+                _storageService.ClearData();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public List<Notification> SaveNotifications(List<Notification> notifications)
+        {
+            return _storageService.SaveNotifications(notifications);
+        }
+
+        public async void SetNotificationAsOld(string notificationId)
+        {
+            var notifications = await GetNotifications();
+            if (notifications != null)
+            {
+                notifications.ForEach(x => { if (x.Id == notificationId) { x.Status = Core.Enum.NotificationStatus.Old; } });
+                SaveNotifications(notifications);
+                await _dpLogic.ReadNotify(notificationId);
             }
         }
 

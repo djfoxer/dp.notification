@@ -7,33 +7,35 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
 
-namespace djfoxer.dp.notification.Core.Task
+namespace djfoxer.dp.notification.Background
 {
-    public sealed class GetNotificationBackgroundTask : MainBackgroundTask
+    public sealed class GetNotificationBackgroundTask : IBackgroundTask
     {
 
 
-        public override void Run(IBackgroundTaskInstance taskInstance)
+        public void Run(IBackgroundTaskInstance taskInstance)
         {
+            System.Diagnostics.Debug.WriteLine("POSZŁO!!!!!!!!!");
+
             BackgroundTaskDeferral _deferral = taskInstance.GetDeferral();
 
             var xmlString = @"<toast launch='args' scenario='alarm'>
-    <visual>
-        <binding template='ToastGeneric'>
-            <text>Alarm</text>
-            <text>Get up now!!</text>
-        </binding>
-    </visual>
-    <actions>
+                            <visual>
+                                <binding template='ToastGeneric'>
+                                    <text>Alarm</text>
+                                    <text>Get up now!!</text>
+                                </binding>
+                            </visual>
+                            <actions>
 
-        <action arguments = 'snooze'
-                content = 'snooze' />
+                                <action arguments = 'snooze'
+                                        content = 'snooze' />
 
-        <action arguments = 'dismiss'
-                content = 'dismiss' />
+                                <action arguments = 'dismiss'
+                                        content = 'dismiss' />
 
-    </actions>
-</toast>";
+                            </actions>
+                        </toast>";
             var doc = new Windows.Data.Xml.Dom.XmlDocument();
             doc.LoadXml(xmlString);
 
@@ -60,13 +62,13 @@ namespace djfoxer.dp.notification.Core.Task
         public static void RegisterMe()
         {
 
-         
+
 
             var builder = new BackgroundTaskBuilder();
             builder.Name = TaskName;
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
             builder.SetTrigger(new TimeTrigger(15, false));
-            builder.TaskEntryPoint = "djfoxer.dp.notification.Core.Task." + TaskName;
+            builder.TaskEntryPoint = "djfoxer.dp.notification.Background." + TaskName;
             builder.Register();
         }
     }
