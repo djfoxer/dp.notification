@@ -9,7 +9,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace djfoxer.dp.notification.App.Model
+namespace djfoxer.dp.notification.Core.Logic
 {
     public class BaseStorageService
     {

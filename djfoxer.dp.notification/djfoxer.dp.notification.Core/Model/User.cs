@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace djfoxer.dp.notification.App.Model
+namespace djfoxer.dp.notification.Core.Model
 {
     public class User
     {

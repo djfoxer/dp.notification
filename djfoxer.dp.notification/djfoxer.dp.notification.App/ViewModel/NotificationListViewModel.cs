@@ -1,5 +1,7 @@
 ﻿using djfoxer.dp.notification.App.Model;
 using djfoxer.dp.notification.Core;
+using djfoxer.dp.notification.Core.Logic;
+using djfoxer.dp.notification.Core.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
@@ -29,6 +31,7 @@ namespace djfoxer.dp.notification.App.ViewModel
         private readonly IDataService _dataService;
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
+        private readonly ToastLogic _toastLogic;
 
 
         #endregion
@@ -38,11 +41,13 @@ namespace djfoxer.dp.notification.App.ViewModel
         public NotificationListViewModel(
             IDataService dataService,
             INavigationService navigationService,
-            IDialogService dialogService)
+            IDialogService dialogService,
+            ToastLogic toastLogic)
         {
             _dataService = dataService;
             _navigationService = navigationService;
             _dialogService = dialogService;
+            _toastLogic = toastLogic;
 
             ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
@@ -108,7 +113,8 @@ namespace djfoxer.dp.notification.App.ViewModel
                 {
                     Notifications = notifications;
 
-                    fresNotifications.ToList().ForEach(n => _dataService.ShowToast(n));
+                    fresNotifications.ToList().ForEach(n => _toastLogic.ShowToast(n));
+                 //   _toastLogic.ShowToast(notifications.First());
                 });
 
 

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using djfoxer.dp.notification.Core.Model;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Web.Http;
 
-namespace djfoxer.dp.notification.Core
+namespace djfoxer.dp.notification.Core.Logic
 {
     public class DpLogic
     {

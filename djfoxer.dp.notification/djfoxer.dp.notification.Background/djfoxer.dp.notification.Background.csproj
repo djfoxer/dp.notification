@@ -112,6 +112,12 @@
     <Compile Include="GetNotificationBackgroundTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\djfoxer.dp.notification.Core\djfoxer.dp.notification.Core.csproj">
+      <Project>{8e72d674-4ff5-4897-9f18-73f47049f9f7}</Project>
+      <Name>djfoxer.dp.notification.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

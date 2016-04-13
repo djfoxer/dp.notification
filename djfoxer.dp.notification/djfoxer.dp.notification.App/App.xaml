@@ -15,6 +15,7 @@
         <vm:ViewModelLocator x:Key="Locator"
                              d:IsDataSource="True" />
         <helpers:NegationConverter x:Key="NegationConverter"  />
+        <helpers:StringFormat x:Key="StringFormat"  />
     </Application.Resources>
     
 </Application>

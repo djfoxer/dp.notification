@@ -2,6 +2,7 @@
 using djfoxer.dp.notification.App.View;
 using djfoxer.dp.notification.App.ViewModel;
 using djfoxer.dp.notification.Background;
+using djfoxer.dp.notification.Core.Logic;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
@@ -77,6 +78,8 @@ namespace djfoxer.dp.notification.App
                 if (loginAgain)
                 {
                     rootFrame.Navigate(typeof(NotificationListPage), e.Arguments);
+                    BackgroundTaskManager b = new BackgroundTaskManager();
+                    b.Register();
                 }
                 else
                 {
@@ -91,8 +94,7 @@ namespace djfoxer.dp.notification.App
                 this,
                 HandleNotificationMessage);
 
-            BackgroundTaskManager b = new BackgroundTaskManager();
-            b.Register();
+           
 
             //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             //SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;

@@ -1,5 +1,6 @@
 ﻿using djfoxer.dp.notification.App.Model;
 using djfoxer.dp.notification.App.View;
+using djfoxer.dp.notification.Core.Logic;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
@@ -29,6 +30,7 @@ namespace djfoxer.dp.notification.App.ViewModel
 
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<IStorageService, StorageService>();
+            SimpleIoc.Default.Register<ToastLogic>();
 
             if (ViewModelBase.IsInDesignModeStatic)
             {

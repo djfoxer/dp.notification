@@ -1,4 +1,6 @@
-﻿using System;
+﻿using djfoxer.dp.notification.Core;
+using djfoxer.dp.notification.Core.Logic;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,35 +15,25 @@ namespace djfoxer.dp.notification.Background
     {
 
 
-        public void Run(IBackgroundTaskInstance taskInstance)
+        public async void Run(IBackgroundTaskInstance taskInstance)
         {
-            System.Diagnostics.Debug.WriteLine("POSZŁO!!!!!!!!!");
+            //System.Diagnostics.Debug.WriteLine("POSZŁO!!!!!!!!!");
 
             BackgroundTaskDeferral _deferral = taskInstance.GetDeferral();
 
-            var xmlString = @"<toast launch='args' scenario='alarm'>
-                            <visual>
-                                <binding template='ToastGeneric'>
-                                    <text>Alarm</text>
-                                    <text>Get up now!!</text>
-                                </binding>
-                            </visual>
-                            <actions>
+            IStorageService storage = new StorageService();
+            if (await storage.LoadLastUser())
+            {
+                DpLogic dpLogic = new DpLogic();
+                ToastLogic toastLogic = new ToastLogic();
 
-                                <action arguments = 'snooze'
-                                        content = 'snooze' />
+                var notifications = await dpLogic.GetNotifications();
 
-                                <action arguments = 'dismiss'
-                                        content = 'dismiss' />
+                notifications = storage.SaveNotifications(notifications);
 
-                            </actions>
-                        </toast>";
-            var doc = new Windows.Data.Xml.Dom.XmlDocument();
-            doc.LoadXml(xmlString);
+                notifications.ForEach(x => toastLogic.ShowToast(x));
 
-            var toast = new ToastNotification(doc);
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
-
+            }
             _deferral.Complete();
         }
 
@@ -62,14 +54,15 @@ namespace djfoxer.dp.notification.Background
         public static void RegisterMe()
         {
 
-
+            Type thisTask = typeof(GetNotificationBackgroundTask);
 
             var builder = new BackgroundTaskBuilder();
-            builder.Name = TaskName;
+            builder.Name = thisTask.Name;
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            builder.SetTrigger(new TimeTrigger(15, false));
-            builder.TaskEntryPoint = "djfoxer.dp.notification.Background." + TaskName;
-            builder.Register();
+            var timer = new TimeTrigger(15, false);
+            builder.SetTrigger(timer);
+            builder.TaskEntryPoint = thisTask.FullName;
+            var task = builder.Register();
         }
     }
 }

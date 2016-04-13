@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using static djfoxer.dp.notification.Core.Enum;
 
-namespace djfoxer.dp.notification.Core
+namespace djfoxer.dp.notification.Core.Model
 {
     public class Notification
     {

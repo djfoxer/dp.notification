@@ -13,11 +13,9 @@ namespace djfoxer.dp.notification.Background
 
 
 
-        public void Register()
+        public async void Register()
         {
-
-
-
+            var status = await BackgroundExecutionManager.RequestAccessAsync();
             if (!BackgroundTaskRegistration.AllTasks.Select(x => x.Value.Name).ToList().Exists(x => x == GetNotificationBackgroundTask.TaskName))
             {
                 GetNotificationBackgroundTask.RegisterMe();

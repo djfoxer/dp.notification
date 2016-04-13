@@ -1,11 +1,12 @@
 ﻿using djfoxer.dp.notification.Core;
+using djfoxer.dp.notification.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace djfoxer.dp.notification.App.Model
+namespace djfoxer.dp.notification.Core.Logic
 {
     public interface IStorageService
     {

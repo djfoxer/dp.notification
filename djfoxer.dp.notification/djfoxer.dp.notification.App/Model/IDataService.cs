@@ -1,4 +1,5 @@
 ﻿using djfoxer.dp.notification.Core;
+using djfoxer.dp.notification.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,6 @@ namespace djfoxer.dp.notification.App.Model
         Task<List<Notification>> GetNotifications();
 
         List<Notification> SaveNotifications(List<Notification> notifications);
-
-
-        void ShowToast(Notification notification);
 
         void SetNotificationAsOld(string notificationId);
     }

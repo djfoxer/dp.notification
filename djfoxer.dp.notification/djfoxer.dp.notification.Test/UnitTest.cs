@@ -4,6 +4,7 @@ using djfoxer.dp.notification.Core;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using djfoxer.dp.notification.Core.Logic;
 
 namespace djfoxer.dp.notification.Test
 {

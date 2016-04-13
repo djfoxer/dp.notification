@@ -101,13 +101,9 @@
     </Compile>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Helpers\NegationConverter.cs" />
-    <Compile Include="Model\BaseStorageService.cs" />
+    <Compile Include="Helpers\StringFormat.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\IDataService.cs" />
-    <Compile Include="Model\IStorageService.cs" />
-    <Compile Include="Model\Settings.cs" />
-    <Compile Include="Model\StorageService.cs" />
-    <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\NotificationListViewModel.cs" />

@@ -77,7 +77,10 @@
                             Grid.Column="1"
                             Grid.Row="1"
                             TextWrapping="Wrap" 
-                            Text="{Binding AddedDate}" 
+                            Text="{Binding AddedDate,
+                            Converter={StaticResource StringFormat},
+                            ConverterParameter='{}dd.MM.yyyy HH:mm',
+                            Mode=OneWay}" 
                             FontWeight="Light" ></TextBlock>
                         <TextBlock  
                             Grid.Column="1"
