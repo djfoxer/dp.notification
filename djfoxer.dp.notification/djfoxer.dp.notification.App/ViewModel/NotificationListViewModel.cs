@@ -53,7 +53,7 @@ namespace djfoxer.dp.notification.App.ViewModel
             {
                 LoadNotification();
 
-            }, TimeSpan.FromSeconds(12));
+            }, TimeSpan.FromSeconds(30));
 
             Application.Current.Resuming += Current_Resuming;
         }

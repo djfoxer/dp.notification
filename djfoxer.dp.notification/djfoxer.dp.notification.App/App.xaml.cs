@@ -86,6 +86,10 @@ namespace djfoxer.dp.notification.App
                     rootFrame.Navigate(typeof(LoginPage), e.Arguments);
                 }
             }
+            else
+            {
+
+            }
             // Ensure the current window is active
             Window.Current.Activate();
             DispatcherHelper.Initialize();

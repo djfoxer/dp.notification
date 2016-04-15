@@ -29,7 +29,7 @@ namespace djfoxer.dp.notification.Core.Logic
         {
             CurrentUser = new User() { Login = login };
             Settings = new Settings() { LastUserName = login, LoginDate = DateTime.Now, Expire = expire ?? DateTime.Now };
-            StorageRoamingWrite(GetHashString(login), CurrentUser);
+            StorageLocalWrite(GetHashString(login), CurrentUser);
             StorageLocalWrite(Const.FileSettings, Settings);
 
         }
@@ -53,7 +53,7 @@ namespace djfoxer.dp.notification.Core.Logic
                 CurrentUser.OldNotyifications = notifications
                     .Where(x => x.Status == Core.Enum.NotificationStatus.Old)
                     .Select(x => x.Id).ToList();
-                StorageRoamingWrite(GetHashString(CurrentUser.Login), CurrentUser);
+                StorageLocalWrite(GetHashString(CurrentUser.Login), CurrentUser);
             }
 
             return freshNotifications;
@@ -67,7 +67,7 @@ namespace djfoxer.dp.notification.Core.Logic
 
                 if (Settings.Expire > DateTime.Now)
                 {
-                    CurrentUser = await StorageRoamingRead<User>(GetHashString(Settings.LastUserName));
+                    CurrentUser = await StorageLocalRead<User>(GetHashString(Settings.LastUserName));
                     return true;
                 }
                 else
@@ -82,9 +82,14 @@ namespace djfoxer.dp.notification.Core.Logic
 
         public void ClearData()
         {
+            if (!string.IsNullOrEmpty(Settings.LastUserName))
+            {
+                StorageLocalDelete(GetHashString(Settings.LastUserName));
+            }
             CurrentUser = null;
             Settings = null;
             StorageLocalDelete(Const.FileSettings);
+
         }
     }
 }

@@ -36,7 +36,7 @@ namespace djfoxer.dp.notification.Core.Logic
 
         public void StorageRoamingDelete(string fileName)
         {
-            StorageDelete(fileName,false);
+            StorageDelete(fileName, false);
         }
 
         public void StorageLocalDelete(string fileName)
@@ -46,10 +46,28 @@ namespace djfoxer.dp.notification.Core.Logic
 
         private async void StorageWrite(string fileName, object data, bool local = true)
         {
-            StorageFolder localFolder = local ? ApplicationData.Current.LocalFolder
-                : ApplicationData.Current.RoamingFolder;
-            StorageFile file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(data));
+            try
+            {
+                StorageFolder localFolder = local ? ApplicationData.Current.LocalFolder
+              : ApplicationData.Current.RoamingFolder;
+                var check = await localFolder.TryGetItemAsync(fileName);
+                StorageFile file = null;
+                if (check == null)
+                {
+                    file = await localFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                }
+                else
+                {
+                    file = await localFolder.GetFileAsync(fileName);
+                }
+                await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+
+
+            }
+
         }
 
         private async void StorageDelete(string fileName, bool local = true)
@@ -75,7 +93,6 @@ namespace djfoxer.dp.notification.Core.Logic
                 StorageFolder localFolder = local ? ApplicationData.Current.LocalFolder
                 : ApplicationData.Current.RoamingFolder;
                 StorageFile file = await localFolder.GetFileAsync(fileName);
-
                 string data = await FileIO.ReadTextAsync(file);
                 return JsonConvert.DeserializeObject<T>(data);
 

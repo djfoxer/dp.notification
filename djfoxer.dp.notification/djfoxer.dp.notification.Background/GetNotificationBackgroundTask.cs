@@ -3,10 +3,13 @@ using djfoxer.dp.notification.Core.Logic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Windows.ApplicationModel.Background;
+using Windows.Storage;
 using Windows.UI.Notifications;
 
 namespace djfoxer.dp.notification.Background
@@ -20,21 +23,30 @@ namespace djfoxer.dp.notification.Background
             //System.Diagnostics.Debug.WriteLine("POSZŁO!!!!!!!!!");
 
             BackgroundTaskDeferral _deferral = taskInstance.GetDeferral();
-
-            IStorageService storage = new StorageService();
-            if (await storage.LoadLastUser())
+            try
             {
-                DpLogic dpLogic = new DpLogic();
-                ToastLogic toastLogic = new ToastLogic();
+                IStorageService storage = new StorageService();
+                if (await storage.LoadLastUser())
+                {
+                    DpLogic dpLogic = new DpLogic();
+                    ToastLogic toastLogic = new ToastLogic();
 
-                var notifications = await dpLogic.GetNotifications();
+                    var notifications = await dpLogic.GetNotifications();
 
-                notifications = storage.SaveNotifications(notifications);
+                    notifications = storage.SaveNotifications(notifications);
 
-                notifications.ForEach(x => toastLogic.ShowToast(x));
+                    notifications.ForEach(x => toastLogic.ShowToast(x));
 
+                    //StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("439280567e180293388d226da13ae6fd");
+                    //await FileIO.WriteTextAsync(file, "asdsad");
+
+
+                }
             }
-            _deferral.Complete();
+            finally
+            {
+                _deferral.Complete();
+            }
         }
 
         private static string _TaskName = string.Empty;
