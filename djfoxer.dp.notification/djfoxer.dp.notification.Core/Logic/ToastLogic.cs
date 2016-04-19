@@ -1,4 +1,5 @@
 ﻿using djfoxer.dp.notification.Core.Model;
+using NotificationsExtensions.Toasts;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -14,6 +15,12 @@ namespace djfoxer.dp.notification.Core.Logic
         {
             if (notification != null)
             {
+
+                //ToastActionsCustom actions = new ToastActionsCustom()
+                //{
+                //    Inputs
+                //}
+
                 XmlDocument toastXml = new XmlDocument();
                 toastXml.LoadXml(
                     $@"

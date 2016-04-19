@@ -20,28 +20,30 @@ namespace djfoxer.dp.notification.Background
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
-            //System.Diagnostics.Debug.WriteLine("POSZŁO!!!!!!!!!");
 
             BackgroundTaskDeferral _deferral = taskInstance.GetDeferral();
             try
             {
                 IStorageService storage = new StorageService();
-                if (await storage.LoadLastUser())
+                if (storage.LoadLastUser())
                 {
                     DpLogic dpLogic = new DpLogic();
                     ToastLogic toastLogic = new ToastLogic();
 
                     var notifications = await dpLogic.GetNotifications();
 
+                    //toastLogic.ShowToast(notifications.First());
+
                     notifications = storage.SaveNotifications(notifications);
 
                     notifications.ForEach(x => toastLogic.ShowToast(x));
 
-                    //StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("439280567e180293388d226da13ae6fd");
-                    //await FileIO.WriteTextAsync(file, "asdsad");
-
 
                 }
+            }
+            catch (Exception)
+            {
+
             }
             finally
             {
@@ -65,15 +67,12 @@ namespace djfoxer.dp.notification.Background
 
         public static void RegisterMe()
         {
-
-            Type thisTask = typeof(GetNotificationBackgroundTask);
-
             var builder = new BackgroundTaskBuilder();
-            builder.Name = thisTask.Name;
+            builder.Name = TaskName;
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
             var timer = new TimeTrigger(15, false);
             builder.SetTrigger(timer);
-            builder.TaskEntryPoint = thisTask.FullName;
+            builder.TaskEntryPoint = typeof(GetNotificationBackgroundTask).FullName;
             var task = builder.Register();
         }
     }

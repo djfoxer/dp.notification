@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Helpers\NegationConverter.cs" />
+    <Compile Include="Helpers\StatusToVisibilityConverter.cs" />
     <Compile Include="Helpers\StringFormat.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\IDataService.cs" />

@@ -12,7 +12,7 @@ namespace djfoxer.dp.notification.Core.Logic
     {
         void WriteUser(string login, DateTime? expire);
 
-        Task<bool> LoadLastUser();
+        bool LoadLastUser();
 
         User GetUser();
 

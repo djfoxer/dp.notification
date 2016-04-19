@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace djfoxer.dp.notification.Core.Logic
 {
@@ -12,8 +13,8 @@ namespace djfoxer.dp.notification.Core.Logic
     {
         #region TODO-TEMP
 
-        private static User CurrentUser;
-        private static Settings Settings;
+        private User CurrentUser;
+        private Settings Settings;
 
         #endregion
 
@@ -53,21 +54,23 @@ namespace djfoxer.dp.notification.Core.Logic
                 CurrentUser.OldNotyifications = notifications
                     .Where(x => x.Status == Core.Enum.NotificationStatus.Old)
                     .Select(x => x.Id).ToList();
+
                 StorageLocalWrite(GetHashString(CurrentUser.Login), CurrentUser);
+
             }
 
             return freshNotifications;
         }
 
-        public async Task<bool> LoadLastUser()
+        public bool LoadLastUser()
         {
-            Settings = await StorageLocalRead<Settings>(Const.FileSettings);
+            Settings = StorageLocalRead<Settings>(Const.FileSettings);
             if (Settings != null && !string.IsNullOrWhiteSpace(Settings.LastUserName))
             {
 
                 if (Settings.Expire > DateTime.Now)
                 {
-                    CurrentUser = await StorageLocalRead<User>(GetHashString(Settings.LastUserName));
+                    CurrentUser = StorageLocalRead<User>(GetHashString(Settings.LastUserName));
                     return true;
                 }
                 else

@@ -10,9 +10,6 @@ namespace djfoxer.dp.notification.Background
 {
     public sealed class BackgroundTaskManager
     {
-
-
-
         public async void Register()
         {
             var status = await BackgroundExecutionManager.RequestAccessAsync();

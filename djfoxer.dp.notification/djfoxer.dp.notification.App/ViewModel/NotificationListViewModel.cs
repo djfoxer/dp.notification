@@ -104,7 +104,7 @@ namespace djfoxer.dp.notification.App.ViewModel
         {
             Task.Run(async () =>
             {
-
+                _dataService.RefreshData();
                 var notifications = new ObservableCollection<Notification>(await _dataService.GetNotifications());
 
                 var fresNotifications = _dataService.SaveNotifications(notifications.ToList());
@@ -114,7 +114,7 @@ namespace djfoxer.dp.notification.App.ViewModel
                     Notifications = notifications;
 
                     fresNotifications.ToList().ForEach(n => _toastLogic.ShowToast(n));
-                 //   _toastLogic.ShowToast(notifications.First());
+                    //   _toastLogic.ShowToast(notifications.First());
                 });
 
 
@@ -135,10 +135,28 @@ namespace djfoxer.dp.notification.App.ViewModel
                 return _openLink ?? (_openLink = new RelayCommand(async () =>
               {
                   var notification = SelectedNotification;
-                  if (notification != null && !string.IsNullOrEmpty(notification.TargetUrl))
+                  if (notification != null)
                   {
-                      await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
-                      _dataService.SetNotificationAsOld(notification.Id);
+                      if (notification.Status == Core.Enum.NotificationStatus.New)
+                      {
+                          if (!string.IsNullOrEmpty(notification.TargetUrl))
+                          {
+                              await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
+                          }
+                          Notifications = new ObservableCollection<Notification>(await _dataService.SetNotificationAsOld(notification.Id));
+                      }
+                      else
+                      {
+                          await _dialogService.ShowMessage("Czy chcesz się usunąc powidomienie?", "Usunięcie", "Tak", "Nie", (confirm) =>
+                           {
+                               if (confirm)
+                               {
+                                   Notifications.Remove(notification);
+                                   _dataService.RemoveNotyfication(notification.Id);
+                               }
+                           });
+
+                      }
                   }
               }));
 

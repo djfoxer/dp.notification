@@ -16,6 +16,7 @@
                              d:IsDataSource="True" />
         <helpers:NegationConverter x:Key="NegationConverter"  />
         <helpers:StringFormat x:Key="StringFormat"  />
+        <helpers:StatusToVisibilityConverter x:Key="StatusToVisibilityConverter"  />
     </Application.Resources>
-    
+
 </Application>

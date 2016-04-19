@@ -4,6 +4,7 @@ using djfoxer.dp.notification.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace djfoxer.dp.notification.App.Model
 {
@@ -72,22 +73,46 @@ namespace djfoxer.dp.notification.App.Model
             }
         }
 
+        public void RefreshData()
+        {
+            _storageService.LoadLastUser();
+        }
+
+        public async Task<List<Notification>> RemoveNotyfication(string notificationId)
+        {
+            var notifications = await GetNotifications();
+            if (notifications != null)
+            {
+                var toRemove = notifications.Where(x => x.Id == notificationId).FirstOrDefault();
+                if(toRemove != null)
+                {
+                    notifications.Remove(toRemove);
+                    await _dpLogic.DeleteNotify(notificationId);
+                    _storageService.SaveNotifications(notifications);
+                }
+            }
+
+            return notifications;
+        }
+
         public List<Notification> SaveNotifications(List<Notification> notifications)
         {
             return _storageService.SaveNotifications(notifications);
         }
 
-        public async void SetNotificationAsOld(string notificationId)
+        public async Task<List<Notification>> SetNotificationAsOld(string notificationId)
         {
             var notifications = await GetNotifications();
             if (notifications != null)
             {
-                notifications.ForEach(x => { if (x.Id == notificationId) { x.Status = Core.Enum.NotificationStatus.Old; } });
+                notifications.Where(x => x.Id == notificationId).FirstOrDefault().Status = Core.Enum.NotificationStatus.Old;
                 SaveNotifications(notifications);
                 await _dpLogic.ReadNotify(notificationId);
             }
+
+            return notifications;
         }
 
-        
+
     }
 }

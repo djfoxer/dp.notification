@@ -44,6 +44,11 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid 
+                        Opacity="{
+                        Binding Status, 
+                        Converter={StaticResource StatusToVisibilityConverter},
+                        Mode=OneWay
+                        }"
                         Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>

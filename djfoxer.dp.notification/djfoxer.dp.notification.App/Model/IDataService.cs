@@ -15,10 +15,14 @@ namespace djfoxer.dp.notification.App.Model
 
         void Logout();
 
+        void RefreshData();
+
         Task<List<Notification>> GetNotifications();
 
         List<Notification> SaveNotifications(List<Notification> notifications);
 
-        void SetNotificationAsOld(string notificationId);
+        Task<List<Notification>> SetNotificationAsOld(string notificationId);
+
+        Task<List<Notification>> RemoveNotyfication(string notificationId);
     }
 }

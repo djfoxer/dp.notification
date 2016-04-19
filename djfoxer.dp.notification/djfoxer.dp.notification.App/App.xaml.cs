@@ -64,11 +64,11 @@ namespace djfoxer.dp.notification.App
 
             bool loginAgain = false;
 
-            Task.Run(async () =>
-            {
-                var x = new ViewModelLocator();
-                loginAgain = await ServiceLocator.Current.GetInstance<IStorageService>().LoadLastUser();
-            }).Wait();
+            Task.Run(() =>
+           {
+               var x = new ViewModelLocator();
+               loginAgain = ServiceLocator.Current.GetInstance<IStorageService>().LoadLastUser();
+           }).Wait();
 
             if (rootFrame.Content == null)
             {
@@ -98,7 +98,7 @@ namespace djfoxer.dp.notification.App
                 this,
                 HandleNotificationMessage);
 
-           
+
 
             //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             //SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
