@@ -240,3 +240,4 @@ _Pvt_Extensions
 *.runsettings
 *.appxmanifest
 
+/djfoxer.dp.notification/djfoxer.dp.notification.App/Package.StoreAssociation.xml

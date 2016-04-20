@@ -113,8 +113,8 @@ namespace djfoxer.dp.notification.App.ViewModel
                 {
                     Notifications = notifications;
 
-                    fresNotifications.ToList().ForEach(n => _toastLogic.ShowToast(n));
-                    //   _toastLogic.ShowToast(notifications.First());
+                    fresNotifications.ToList().ForEach(n => _toastLogic.ShowToast(n, true));
+                    //_toastLogic.ShowToast(notifications.First(), true);
                 });
 
 

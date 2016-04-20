@@ -11,59 +11,60 @@ namespace djfoxer.dp.notification.Core.Logic
 {
     public class ToastLogic
     {
-        public void ShowToast(Notification notification)
+        public void ShowToast(Notification notification, bool isForeground)
         {
             if (notification != null)
             {
 
-                //ToastActionsCustom actions = new ToastActionsCustom()
-                //{
-                //    Inputs
-                //}
+                ToastContent toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        TitleText = new ToastText()
+                        {
+                            Text = notification.Title
+                        },
+                        BodyTextLine1 = new ToastText()
+                        {
+                            Text = notification.AddedDate.
+                                    ToString("dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture)
+                        },
+                        BodyTextLine2 = new ToastText()
+                        {
+                            Text = notification.FullText
+                        },
+                        AppLogoOverride = new ToastAppLogo()
+                        {
+                            Source = new ToastImageSource(notification.Avatar)
+                        }
+                    },
+                    Audio = new ToastAudio()
+                    {
+                        Src = new Uri("ms-appx:///Assets/Sounds/alert_1.mp3")
+                    }
+                };
 
-                XmlDocument toastXml = new XmlDocument();
-                toastXml.LoadXml(
-                    $@"
-                    <toast>
-                        <visual>
-                            <binding template='ToastGeneric'>
-                                <text></text>
-                                <text></text>
-                                <text></text>
-                                <image placement='appLogoOverride'></image>
-                            </binding>
-                        </visual>
-                        <audio src='ms-winsoundevent:Notification.Looping.Alarm2' loop='false' />
-                        <actions>
-                            <action
-                                content='pokaż'
-                                activationType='foreground'
-                                arguments='show'/>
+                if (isForeground)
+                {
+                    toastContent.Actions = new ToastActionsCustom()
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("pokaż", "show")
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                                TextBoxId = notification.TargetUrl
 
-                            <action
-                                content='anuluj'
-                                activationType='foreground'
-                                arguments='hide'/>
-                        </actions>
-                    </toast>"
-                );
+                            },
+                            new ToastButton("anuluj", "hide")
+                            {
+                                ActivationType = ToastActivationType.Foreground
+                            },
+                        }
+                    };
+                }
 
-                // toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText03);
-
-                XmlNodeList toastImageAttributes = toastXml.GetElementsByTagName("image");
-                ((XmlElement)toastImageAttributes[0]).SetAttribute("src", notification.Avatar);
-                ((XmlElement)toastImageAttributes[0]).SetAttribute("alt", "img");
-
-                XmlNodeList toastTextAttributes = toastXml.GetElementsByTagName("text");
-                toastTextAttributes[0].InnerText = notification.Title;
-                toastTextAttributes[1].InnerText = notification.AddedDate.
-                                    ToString("dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture);
-                toastTextAttributes[2].InnerText = notification.FullText;
-
-                toastTextAttributes = toastXml.GetElementsByTagName("actions");
-                ((XmlElement)toastTextAttributes[0]).SetAttribute("url", notification.TargetUrl);
-
-                ToastNotification toast = new ToastNotification(toastXml);
+                ToastNotification toast = new ToastNotification(toastContent.GetXml());
                 toast.Activated += Toast_Activated;
 
                 ToastNotificationManager.CreateToastNotifier().Show(toast);
@@ -74,8 +75,8 @@ namespace djfoxer.dp.notification.Core.Logic
         {
             if ((args as ToastActivatedEventArgs).Arguments == "show")
             {
-                string url = ((XmlElement)sender.Content.GetElementsByTagName("actions").First())
-                            .GetAttribute("url");
+                string url = ((XmlElement)sender.Content.GetElementsByTagName("action").First())
+                            .GetAttribute("hint-inputId");
                 if (!string.IsNullOrEmpty(url))
                 {
                     await Launcher.LaunchUriAsync(new Uri(url));

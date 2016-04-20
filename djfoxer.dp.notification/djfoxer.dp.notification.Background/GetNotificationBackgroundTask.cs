@@ -32,11 +32,11 @@ namespace djfoxer.dp.notification.Background
 
                     var notifications = await dpLogic.GetNotifications();
 
-                    //toastLogic.ShowToast(notifications.First());
+                    toastLogic.ShowToast(notifications.First(), false);
 
                     notifications = storage.SaveNotifications(notifications);
 
-                    notifications.ForEach(x => toastLogic.ShowToast(x));
+                    //notifications.ForEach(x => toastLogic.ShowToast(x, false));
 
 
                 }
@@ -59,7 +59,7 @@ namespace djfoxer.dp.notification.Background
             {
                 if (string.IsNullOrEmpty(_TaskName))
                 {
-                    _TaskName = nameof(GetNotificationBackgroundTask);
+                    _TaskName = nameof(GetNotificationBackgroundTask) + "_1";
                 }
                 return _TaskName;
             }
