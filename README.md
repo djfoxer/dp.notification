@@ -10,7 +10,7 @@ Other links:
 
 
 ##Change log:
-**0.1.2**
+**0.1.3**
 * first release in W10 Store
 * alfa version - early access
 
