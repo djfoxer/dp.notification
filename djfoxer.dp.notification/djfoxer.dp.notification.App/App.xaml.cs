@@ -10,6 +10,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -27,6 +28,24 @@ namespace djfoxer.dp.notification.App
             Suspending += OnSuspending;
         }
 
+
+        protected async override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+
+            if (args.Kind == ActivationKind.ToastNotification)
+            {
+                var toastArgs = args as ToastNotificationActivatedEventArgs;
+
+                if (!string.IsNullOrEmpty(toastArgs.Argument))
+                {
+                    await Launcher.LaunchUriAsync(new Uri(toastArgs.Argument));
+                }
+
+                RunApp(args.PreviousExecutionState);
+            }
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -42,6 +61,16 @@ namespace djfoxer.dp.notification.App
             }
 #endif
 
+            RunApp(e.PreviousExecutionState);
+
+
+
+            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            //SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+        }
+
+        private void RunApp(ApplicationExecutionState previousExecutionState)
+        {
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -53,7 +82,7 @@ namespace djfoxer.dp.notification.App
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if (previousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
                 }
@@ -62,28 +91,28 @@ namespace djfoxer.dp.notification.App
                 Window.Current.Content = rootFrame;
             }
 
-            bool loginAgain = false;
-
-            Task.Run(() =>
-           {
-               var x = new ViewModelLocator();
-               loginAgain = ServiceLocator.Current.GetInstance<IStorageService>().LoadLastUser();
-           }).Wait();
-
             if (rootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
+                bool loginAgain = false;
+
+                Task.Run(() =>
+                {
+                    var x = new ViewModelLocator();
+                    loginAgain = ServiceLocator.Current.GetInstance<IStorageService>().LoadLastUser();
+                }).Wait();
+
                 if (loginAgain)
                 {
-                    rootFrame.Navigate(typeof(NotificationListPage), e.Arguments);
+                    rootFrame.Navigate(typeof(NotificationListPage));
                     BackgroundTaskManager b = new BackgroundTaskManager();
                     b.Register();
                 }
                 else
                 {
-                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                    rootFrame.Navigate(typeof(LoginPage));
                 }
             }
             else
@@ -97,12 +126,8 @@ namespace djfoxer.dp.notification.App
             Messenger.Default.Register<NotificationMessageAction<string>>(
                 this,
                 HandleNotificationMessage);
-
-
-
-            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            //SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
         }
+
 
         //private void App_BackRequested(object sender, BackRequestedEventArgs e)
         //{

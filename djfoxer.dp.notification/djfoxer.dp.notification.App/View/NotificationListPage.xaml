@@ -23,6 +23,16 @@
                         </Interactions:EventTriggerBehavior>
                     </Interactivity:Interaction.Behaviors>
                 </AppBarButton>
+                <AppBarButton  Icon="Delete" Label="Usuń przeczytane" >
+                    <Interactivity:Interaction.Behaviors>
+                        <Interactions:EventTriggerBehavior
+                            EventName="Click">
+                            <Interactions:InvokeCommandAction
+                                Command="{Binding Logout}"
+                                />
+                        </Interactions:EventTriggerBehavior>
+                    </Interactivity:Interaction.Behaviors>
+                </AppBarButton>
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>

@@ -175,13 +175,39 @@ namespace djfoxer.dp.notification.App.ViewModel
                    {
                        if (confirm)
                        {
-                           _dataService.Logout();
-                           _navigationService.NavigateTo(ViewModelLocator.LoginPageKey);
+                           var oldNotifications = Notifications.Where(x => x.Status == Core.Enum.NotificationStatus.Old).ToList();
+                           foreach (var oldItem in oldNotifications)
+                           {
+                               _dataService.RemoveNotyfication(oldItem.Id);
+                               Notifications.Remove(oldItem);
+                           }
                        }
                    });
 
 
                }));
+
+            }
+        }
+
+        private RelayCommand _RemoveOld;
+
+        public RelayCommand RemoveOld
+        {
+            get
+            {
+                return _RemoveOld ?? (_RemoveOld = new RelayCommand(() =>
+                {
+                    _dialogService.ShowMessage("Czy chcesz usunąć wszystkie przeczytane powiadomienia?", "Usunięcie", "Tak", "Nie", (confirm) =>
+                    {
+                        if (confirm)
+                        {
+                            _dataService.Logout();
+                        }
+                    });
+
+
+                }));
 
             }
         }

@@ -32,11 +32,11 @@ namespace djfoxer.dp.notification.Background
 
                     var notifications = await dpLogic.GetNotifications();
 
-                    toastLogic.ShowToast(notifications.First(), false);
+                    //toastLogic.ShowToast(notifications.First(), false);
 
                     notifications = storage.SaveNotifications(notifications);
 
-                    //notifications.ForEach(x => toastLogic.ShowToast(x, false));
+                    notifications.ForEach(x => toastLogic.ShowToast(x, false));
 
 
                 }

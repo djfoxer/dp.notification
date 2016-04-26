@@ -18,6 +18,7 @@ namespace djfoxer.dp.notification.Core.Logic
 
                 ToastContent toastContent = new ToastContent()
                 {
+                    Launch = notification.TargetUrl,
                     Visual = new ToastVisual()
                     {
                         TitleText = new ToastText()
