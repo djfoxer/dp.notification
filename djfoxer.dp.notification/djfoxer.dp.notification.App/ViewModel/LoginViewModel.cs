@@ -29,6 +29,7 @@ namespace djfoxer.dp.notification.App.ViewModel
 
                     if (loginResult)
                     {
+                        TxtPassword = string.Empty;
                         _navigationService.NavigateTo(ViewModelLocator.NotificationListPageKey);
                     }
                     else

@@ -29,5 +29,10 @@ namespace djfoxer.dp.notification.App.View
             ApplicationView.PreferredLaunchViewSize = new Size { Height = 780, Width = 500 };
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+        }
     }
 }
