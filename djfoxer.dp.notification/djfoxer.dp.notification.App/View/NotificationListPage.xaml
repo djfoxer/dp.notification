@@ -28,7 +28,7 @@
                         <Interactions:EventTriggerBehavior
                             EventName="Click">
                             <Interactions:InvokeCommandAction
-                                Command="{Binding Logout}"
+                                Command="{Binding RemoveOld}"
                                 />
                         </Interactions:EventTriggerBehavior>
                     </Interactivity:Interaction.Behaviors>

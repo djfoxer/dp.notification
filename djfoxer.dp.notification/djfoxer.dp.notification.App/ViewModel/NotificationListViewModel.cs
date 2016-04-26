@@ -175,12 +175,8 @@ namespace djfoxer.dp.notification.App.ViewModel
                    {
                        if (confirm)
                        {
-                           var oldNotifications = Notifications.Where(x => x.Status == Core.Enum.NotificationStatus.Old).ToList();
-                           foreach (var oldItem in oldNotifications)
-                           {
-                               _dataService.RemoveNotyfication(oldItem.Id);
-                               Notifications.Remove(oldItem);
-                           }
+                           _dataService.Logout();
+                           _navigationService.NavigateTo(ViewModelLocator.LoginPageKey);
                        }
                    });
 
@@ -202,7 +198,12 @@ namespace djfoxer.dp.notification.App.ViewModel
                     {
                         if (confirm)
                         {
-                            _dataService.Logout();
+                            var oldNotifications = Notifications.Where(x => x.Status == Core.Enum.NotificationStatus.Old).ToList();
+                            foreach (var oldItem in oldNotifications)
+                            {
+                                _dataService.RemoveNotyfication(oldItem.Id);
+                                Notifications.Remove(oldItem);
+                            }
                         }
                     });
 
