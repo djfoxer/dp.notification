@@ -241,3 +241,4 @@ _Pvt_Extensions
 *.appxmanifest
 
 /djfoxer.dp.notification/djfoxer.dp.notification.App/Package.StoreAssociation.xml
+/djfoxer.dp.notification/djfoxer.dp.notification.App/_pkginfo.txt

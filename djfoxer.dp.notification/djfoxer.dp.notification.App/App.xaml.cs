@@ -37,12 +37,13 @@ namespace djfoxer.dp.notification.App
             {
                 var toastArgs = args as ToastNotificationActivatedEventArgs;
 
-                if (!string.IsNullOrEmpty(toastArgs.Argument))
+                if (!string.IsNullOrEmpty(toastArgs.Argument) && toastArgs.Argument.StartsWith("http"))
                 {
                     await Launcher.LaunchUriAsync(new Uri(toastArgs.Argument));
                 }
 
                 RunApp(args.PreviousExecutionState);
+
             }
         }
 
