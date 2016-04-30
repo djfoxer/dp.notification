@@ -49,6 +49,10 @@ namespace djfoxer.dp.notification.App.ViewModel
             _dialogService = dialogService;
             _toastLogic = toastLogic;
 
+            LoadingScreen = Visibility.Visible;
+            NoNotifications = Visibility.Collapsed;
+            ShowNotifications = Visibility.Collapsed;
+
             ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer((source) =>
             {
                 LoadNotification();
@@ -66,6 +70,48 @@ namespace djfoxer.dp.notification.App.ViewModel
         #endregion
 
         #region PROP
+
+        private Visibility _LoadingScreen;
+
+        public Visibility LoadingScreen
+        {
+            get
+            {
+                return _LoadingScreen;
+            }
+            set
+            {
+                Set(ref _LoadingScreen, value);
+            }
+        }
+
+        private Visibility _NoNotifications;
+
+        public Visibility NoNotifications
+        {
+            get
+            {
+                return _NoNotifications;
+            }
+            set
+            {
+                Set(ref _NoNotifications, value);
+            }
+        }
+
+        private Visibility _ShowNotifications;
+
+        public Visibility ShowNotifications
+        {
+            get
+            {
+                return _ShowNotifications;
+            }
+            set
+            {
+                Set(ref _ShowNotifications, value);
+            }
+        }
 
         private Notification _SelectedNotification;
 
@@ -100,6 +146,25 @@ namespace djfoxer.dp.notification.App.ViewModel
 
         #region Methods
 
+        private void RefreshView()
+        {
+            if (LoadingScreen == Visibility.Visible)
+            {
+                LoadingScreen = Visibility.Collapsed;
+            }
+
+            if (Notifications != null && Notifications.Count > 0)
+            {
+                NoNotifications = Visibility.Collapsed;
+                ShowNotifications = Visibility.Visible;
+            }
+            else
+            {
+                NoNotifications = Visibility.Visible;
+                ShowNotifications = Visibility.Collapsed;
+            }
+        }
+
         public void LoadNotification()
         {
             Task.Run(async () =>
@@ -115,6 +180,8 @@ namespace djfoxer.dp.notification.App.ViewModel
 
                     fresNotifications.ToList().ForEach(n => _toastLogic.ShowToast(n, true));
                     //_toastLogic.ShowToast(notifications.First(), true);
+
+                    RefreshView();
                 });
 
 
@@ -125,6 +192,21 @@ namespace djfoxer.dp.notification.App.ViewModel
         #endregion
 
         #region Commands
+
+
+        private RelayCommand _OpenDPLink;
+
+        public RelayCommand OpenDPLink
+        {
+            get
+            {
+                return _OpenDPLink ?? (_OpenDPLink = new RelayCommand(async () =>
+                {
+                    await Launcher.LaunchUriAsync(new Uri(Const.UrlFullAddress));
+                }));
+
+            }
+        }
 
         private RelayCommand _openLink;
 
@@ -157,6 +239,8 @@ namespace djfoxer.dp.notification.App.ViewModel
                            });
 
                       }
+
+                      RefreshView();
                   }
               }));
 
@@ -204,6 +288,8 @@ namespace djfoxer.dp.notification.App.ViewModel
                                 _dataService.RemoveNotyfication(oldItem.Id);
                                 Notifications.Remove(oldItem);
                             }
+
+                            RefreshView();
                         }
                     });
 

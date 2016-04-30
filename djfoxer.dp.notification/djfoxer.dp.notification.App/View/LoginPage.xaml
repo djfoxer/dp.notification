@@ -8,50 +8,64 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{Binding Login, Source={StaticResource Locator}}">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-
-        <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch"  >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition Width="6*"></ColumnDefinition>
-                <ColumnDefinition Width="4*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Name="tbLogin" 
-                       TextAlignment="Right" 
-                       Grid.Column="1" 
-                       Grid.Row="0"  
-                       Text="Login" />
-            <TextBlock x:Name="tbPassword" 
-                       TextAlignment="Right" 
-                       Grid.Column="1" 
-                       Grid.Row="1"  
-                       Text="Hasło"  />
-            <TextBox Text="{Binding TxtLogin, Mode=TwoWay}"
-                     Grid.Column="2" 
-                     Grid.Row="0"  
-                     IsEnabled="{Binding IsActive, Mode=OneWay}"/>
-            <PasswordBox Password="{Binding TxtPassword, Mode=TwoWay}"
-                     Grid.Column="2" 
-                     Grid.Row="1"
-                     IsEnabled="{Binding IsActive, Mode=OneWay}"/>
-            <Button Grid.Column="2" 
-                    Grid.Row="2" 
+    <Grid Background="White">
+        <Grid >
+            <Grid.Background>
+                <ImageBrush ImageSource="ms-appx:///Assets/background.jpg" Stretch="UniformToFill" Opacity="0.9" />
+            </Grid.Background>
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch"  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="8*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                Grid.Column="1" 
+                Grid.Row="0"  >
+                    <TextBlock
+                    Foreground="White"
+                    FontSize="55">
+                    Witaj,</TextBlock>
+                    <TextBlock 
+                    Margin="10" 
+                    TextWrapping="WrapWholeWords"
+                     Foreground="White"
+                    >
+                podaj login i hasło z portalu <Run FontWeight="Bold"> dobreprogramy.pl</Run>, aby uzyskać dostęp do aplikacji
+                <LineBreak/></TextBlock>
+                    <TextBox Text="{Binding TxtLogin, Mode=TwoWay}"
+                         IsSpellCheckEnabled="False"
+                         PlaceholderText="login"
+                         BorderBrush="Transparent"
+                         IsEnabled="{Binding IsActive, Mode=OneWay}"/>
+                    <PasswordBox Password="{Binding TxtPassword, Mode=TwoWay}"
+                             Margin="0,10,0,0"
+                             PlaceholderText="hasło"
+                             BorderBrush="Transparent"
+                             IsEnabled="{Binding IsActive, Mode=OneWay}"/>
+                    <ProgressRing
+                    Margin="0,20,0,0"
+                    Foreground="White"
+                    IsActive="{Binding IsActive, Converter={StaticResource NegationConverter}, Mode=OneWay}"/>
+                    <Button
                     HorizontalAlignment="Center" 
-                    Content="Zaloguj"
+                    Content="Zaloguj się"
                     IsEnabled="{Binding IsActive, Mode=OneWay}"
-                    Command="{ Binding Login, Mode=OneWay}"/>
-            <ProgressRing Grid.Column="2"
-                          Grid.Row="3" 
-                          IsActive="{Binding IsActive, Converter={StaticResource NegationConverter}, Mode=OneWay}"/>
+                    Command="{ Binding Login, Mode=OneWay}"
+                    Background="Transparent"
+                    Foreground="White"
+                    BorderBrush="White"
+                    Padding="10"/>
+
+                </StackPanel>
+
+
+            </Grid>
+
+
         </Grid>
-
-
     </Grid>
 </Page>
