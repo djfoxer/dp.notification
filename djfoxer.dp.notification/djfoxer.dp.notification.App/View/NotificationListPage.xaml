@@ -36,121 +36,130 @@
             </StackPanel>
         </AppBar>
     </Page.BottomAppBar>
-
-    <Grid 
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <Grid VerticalAlignment="Center" 
+    <Grid Background="Black">
+        <Grid >
+            <Grid.Background>
+                <ImageBrush ImageSource="ms-appx:///Assets/background.jpg" 
+                            Stretch="UniformToFill" 
+                            Opacity="0.6" />
+            </Grid.Background>
+            <Grid VerticalAlignment="Center" 
               HorizontalAlignment="Stretch" 
               Visibility="{Binding LoadingScreen}"
               >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Name="tbLoadingTxt" 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="tbLoadingTxt" 
                        TextAlignment="Center" 
                        Grid.Column="0" 
                        Grid.Row="1"  
                        FontWeight="Bold"
+                       Foreground="White"
                        Text="Pobieranie powiadomień, czekaj..." />
-            <ProgressRing Grid.Column="0"
+                <ProgressRing Grid.Column="0"
                           Grid.Row="0" 
+                          Foreground="White"    
                           IsActive="True"/>
-        </Grid>
+            </Grid>
 
-        <Grid VerticalAlignment="Center" 
+            <Grid VerticalAlignment="Center" 
               HorizontalAlignment="Stretch" 
               Visibility="{Binding NoNotifications}"
               >
-            <Interactivity:Interaction.Behaviors>
-                <Interactions:EventTriggerBehavior
+                <Interactivity:Interaction.Behaviors>
+                    <Interactions:EventTriggerBehavior
                             EventName="Tapped">
-                    <Interactions:InvokeCommandAction
+                        <Interactions:InvokeCommandAction
                                 Command="{Binding OpenDPLink}" 
                                 />
-                </Interactions:EventTriggerBehavior>
-            </Interactivity:Interaction.Behaviors>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <SymbolIcon Symbol="Comment"
+                    </Interactions:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <SymbolIcon Symbol="Message"
                          Grid.Column="0" 
-                         Grid.Row="0"  
+                         Grid.Row="0" 
+                         Foreground="White"
                         />
-            <SymbolIcon Symbol="Clear"
+                <SymbolIcon Symbol="Cancel"
                         Grid.Column="0" 
                          Grid.Row="0"
                         Foreground="Red"
                         />
 
-            <TextBlock 
+                <TextBlock 
                        TextAlignment="Center" 
                        Grid.Column="0" 
                        Grid.Row="1" 
                         TextWrapping="Wrap"
                         FontWeight="Bold"
+                        Foreground="White"
                        Text="Nie posiadasz w tym momencie żadnych powiadomień z portalu" />
-            <TextBlock 
+                <TextBlock 
                        Grid.Column="0" 
                        Grid.Row="2" 
                        Text="" />
-            <TextBlock  
+                <TextBlock  
                        TextAlignment="Center" 
                        Grid.Column="0" 
                        Grid.Row="4"  
                         TextWrapping="Wrap"
+                        Foreground="White"
                        Text="Kliknij tutaj, aby przejść do dobreprogramy.pl i zacząć działać" />
-            <SymbolIcon Symbol="Link"
+                <SymbolIcon Symbol="Link"
                          Grid.Column="0" 
-                         Grid.Row="3"  
+                         Grid.Row="3"
+                         Foreground="White"
                         />
-        </Grid>
+            </Grid>
 
-        <ListView x:Name="list"
+            <ListView x:Name="list"
                     ItemsSource="{Binding Notifications}"
                     SelectedItem="{Binding SelectedNotification, Mode=TwoWay}"
                    Visibility="{Binding ShowNotifications}"
                   >
-            <Interactivity:Interaction.Behaviors>
-                <Interactions:EventTriggerBehavior
+                <Interactivity:Interaction.Behaviors>
+                    <Interactions:EventTriggerBehavior
                             EventName="Tapped">
-                    <Interactions:InvokeCommandAction
+                        <Interactions:InvokeCommandAction
                                 Command="{Binding OpenLink}" 
                                 />
-                </Interactions:EventTriggerBehavior>
-            </Interactivity:Interaction.Behaviors>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid 
+                    </Interactions:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid 
                         Opacity="{
                         Binding Status, 
                         Converter={StaticResource StatusToVisibilityConverter},
                         Mode=OneWay
                         }"
                         Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
 
-                        <Image 
+                            <Image 
                             Source="{ Binding Avatar}" 
                             Height="50" 
                             Width="50" 
@@ -158,34 +167,42 @@
                             Grid.Column="0"
                             Grid.RowSpan="3"
                             />
-                        <StackPanel  Grid.Column="1" Orientation="Vertical"
-                            Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                            <TextBlock
+                            <StackPanel  Grid.Column="1" 
+                                         Orientation="Vertical"
+                                         Grid.Row="0" 
+                                         VerticalAlignment="Stretch" 
+                                         HorizontalAlignment="Stretch">
+                                <TextBlock
                           
-                            Text="{Binding Title}" 
-                            TextWrapping="Wrap" 
-                            FontWeight="Bold" >
+                                    Text="{Binding Title}" 
+                                    TextWrapping="Wrap" 
+                                    FontWeight="Bold" 
+                                    Foreground="White">
 
-                            </TextBlock>
-                        </StackPanel>
-                        <TextBlock 
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            TextWrapping="Wrap" 
-                            Text="{Binding AddedDate,
-                            Converter={StaticResource StringFormat},
-                            ConverterParameter='{}dd.MM.yyyy HH:mm',
-                            Mode=OneWay}" 
-                            FontWeight="Light" ></TextBlock>
-                        <TextBlock  
+                                </TextBlock>
+                            </StackPanel>
+                            <TextBlock 
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                TextWrapping="Wrap" 
+                                Text="{Binding AddedDate,
+                                Converter={StaticResource StringFormat},
+                                ConverterParameter='{}dd.MM.yyyy HH:mm',
+                                Mode=OneWay}" 
+                                Foreground="White"
+
+                                FontWeight="Light" ></TextBlock>
+                            <TextBlock  
                             Grid.Column="1"
                             Grid.Row="2"
+                            Foreground="White"
                             TextWrapping="Wrap" 
                             Text="{Binding FullText}"></TextBlock>
 
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
     </Grid>
 </Page>
