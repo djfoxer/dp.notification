@@ -39,10 +39,12 @@
                     <TextBox Text="{Binding TxtLogin, Mode=TwoWay}"
                          IsSpellCheckEnabled="False"
                          PlaceholderText="login"
+                         Name="tbLogin"
                          BorderBrush="Transparent"
                          IsEnabled="{Binding IsActive, Mode=OneWay}"/>
                     <PasswordBox Password="{Binding TxtPassword, Mode=TwoWay}"
                              Margin="0,10,0,0"
+                             Name="tbPassword"
                              PlaceholderText="hasło"
                              BorderBrush="Transparent"
                              IsEnabled="{Binding IsActive, Mode=OneWay}"/>
