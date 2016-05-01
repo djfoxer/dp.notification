@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>djfoxer.dp.notification.App</RootNamespace>
     <AssemblyName>djfoxer.dp.notification.App</AssemblyName>
-    <DefaultLanguage>pl-PL</DefaultLanguage>
+    <DefaultLanguage>pl</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>

@@ -76,6 +76,11 @@ namespace djfoxer.dp.notification.Core.Model
                         CustomText = "Nowa odznaka!";
                         FixAvatarUrl("flower.png");
                         break;
+                    case NotificationType.CommentVote:
+                        Title = "Polubiono Twoją wypowiedź";
+                        CustomText = "oddał głos na Twój komentarz";
+                        FixAvatarUrl();
+                        break;
                     default:
                         FixAvatarUrl();
                         break;
