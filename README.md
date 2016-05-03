@@ -10,7 +10,7 @@ Other links:
 
 
 ##Change log:
-**0.2.3** - 04.04.2016
+**0.2.3** - 04.05.2016
 * added loading screen
 * added "no notifications" screen
 * redesign UI in login and notifications list pages
