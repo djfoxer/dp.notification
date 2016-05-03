@@ -43,6 +43,8 @@ namespace djfoxer.dp.notification.Core
                     return NotificationType.Badges;
                 case "comment_vote":
                     return NotificationType.CommentVote;
+                case "comment_blog_follow":
+                    return NotificationType.CommentFollow;
                 default:
                     return NotificationType.Unknown;
             }
@@ -63,6 +65,7 @@ namespace djfoxer.dp.notification.Core
             License = 9,
             Badges = 10,
             CommentVote = 11,
+            CommentFollow = 12,
         }
 
         public enum NotificationStatus

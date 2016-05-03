@@ -81,6 +81,11 @@ namespace djfoxer.dp.notification.Core.Model
                         CustomText = "oddał głos na Twój komentarz";
                         FixAvatarUrl();
                         break;
+                    case NotificationType.CommentFollow:
+                        Title = "Polubiono Twoją wypowiedź";
+                        CustomText = "skomentował wpis, który dodano do ulubionych";
+                        FixAvatarUrl();
+                        break;
                     default:
                         FixAvatarUrl();
                         break;
