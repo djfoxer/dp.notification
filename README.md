@@ -9,7 +9,7 @@ Other links:
 * my homepage [http://djfoxer.pl/](http://djfoxer.pl/)
 
 
-##Change log:
+##Changelog:
 **0.2.3** - 04.05.2016 ([description](http://www.dobreprogramy.pl/djfoxer/DePesza-aktualizacja-i-nowe-pomysly,72802.html))
 * added loading screen
 * added "no notifications" screen
