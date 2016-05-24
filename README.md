@@ -1,4 +1,4 @@
-#![alt logo](http://djfoxer.pl/DePesza/depeszalogo.png)  DePesza 
+#![alt logo](http://djfoxer.pl/DePesza/depeszalogo3.png)  DePesza 
 ###dp.notification
 Universal App for Windows 10 &amp; Mobile with notifications from dobreprogramy.pl
 
