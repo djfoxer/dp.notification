@@ -1,6 +1,11 @@
-#![alt logo](http://djfoxer.pl/DePesza/depeszalogo3.png)  DePesza 
+![alt logo](http://djfoxer.pl/DePesza/depeszalogo3.png)
+#DePesza 
 ###dp.notification
-Universal App for Windows 10 &amp; Mobile with notifications from dobreprogramy.pl
+Universal App (Windows 10 &amp; Windows 10 Mobile) for [dobreprogramy.pl's](http://www.dobreprogramy.pl/) users with active account.
+
+Main features of DePesza:
+- watch and manage notifications list from portal
+- full statistics for blog data
 
 DePesza in Windows 10 Store (Desktop & Mobile): [link](https://www.microsoft.com/pl-pl/store/apps/depesza/9nblggh4nvs2)
 
