@@ -1,4 +1,4 @@
-#![alt logo](http://djfoxer.pl/DePesza/a88x88.png)  DePesza 
+#![alt logo](http://djfoxer.pl/DePesza/depeszalogo.png)  DePesza 
 ###dp.notification
 Universal App for Windows 10 &amp; Mobile with notifications from dobreprogramy.pl
 
@@ -10,6 +10,20 @@ Other links:
 
 
 ##Changelog:
+
+**0.3.0** - 25.05.2016
+- new logo
+- added full statistics for blog data
+- refresh notifications list (blur, opacity, animations)
+- rounded avatars
+- refresh window borders (green)
+- added background blur
+- reorganized command bar
+- added event to focus next item on login page (login => password => sign in)
+- default menu for notification
+- change to default sound for toast
+- added about message
+
 **0.2.3** - 04.05.2016 ([description](http://www.dobreprogramy.pl/djfoxer/DePesza-aktualizacja-i-nowe-pomysly,72802.html))
 * added loading screen
 * added "no notifications" screen
