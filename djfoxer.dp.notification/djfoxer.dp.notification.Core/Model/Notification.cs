@@ -90,7 +90,6 @@ namespace djfoxer.dp.notification.Core.Model
                         FixAvatarUrl();
                         break;
                 }
-
             }
         }
 

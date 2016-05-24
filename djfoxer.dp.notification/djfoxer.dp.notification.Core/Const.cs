@@ -29,6 +29,36 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
+        private const string _BlogPrefix = "http://www.dobreprogramy.pl/MojBlog,";
+
+        public static string BlogPrefix
+        {
+            get
+            {
+                return _BlogPrefix;
+            }
+        }
+
+        private const string _PostStatusPublished = "opublikowany";
+
+        public static string PostStatusPublished
+        {
+            get
+            {
+                return _PostStatusPublished;
+            }
+        }
+
+        private const string _PostHomePage = "homepage";
+
+        public static string PostHomePage
+        {
+            get
+            {
+                return _PostHomePage;
+            }
+        }
+
         private const string _UrlDomain2 = "www.dobreprogramy.pl";
 
         public static string UrlDomain2

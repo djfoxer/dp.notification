@@ -17,6 +17,7 @@ namespace djfoxer.dp.notification.App.ViewModel
     {
         public const string NotificationListPageKey = "NotificationListPageKey";
         public const string LoginPageKey = "LoginPageKey";
+        public const string StatisticsPage = "StatisticsPage";
 
         static ViewModelLocator()
         {
@@ -25,6 +26,7 @@ namespace djfoxer.dp.notification.App.ViewModel
             var nav = new NavigationService();
             nav.Configure(NotificationListPageKey, typeof(NotificationListPage));
             nav.Configure(LoginPageKey, typeof(LoginPage));
+            nav.Configure(StatisticsPage, typeof(StatisticsPage));
 
             SimpleIoc.Default.Register<INavigationService>(() => nav);
 
@@ -43,16 +45,21 @@ namespace djfoxer.dp.notification.App.ViewModel
 
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<NotificationListViewModel>();
+            SimpleIoc.Default.Register<StatisticsViewModel>();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-
         public LoginViewModel Login => ServiceLocator.Current.GetInstance<LoginViewModel>();
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
         public NotificationListViewModel NotyficationList => ServiceLocator.Current.GetInstance<NotificationListViewModel>();
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+         "CA1822:MarkMembersAsStatic",
+         Justification = "This non-static member is needed for data binding purposes.")]
+        public StatisticsViewModel Statistics => ServiceLocator.Current.GetInstance<StatisticsViewModel>();
     }
 }

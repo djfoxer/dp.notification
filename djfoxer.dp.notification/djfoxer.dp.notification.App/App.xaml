@@ -17,6 +17,7 @@
         <helpers:NegationConverter x:Key="NegationConverter"  />
         <helpers:StringFormat x:Key="StringFormat"  />
         <helpers:StatusToVisibilityConverter x:Key="StatusToVisibilityConverter"  />
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"  />
     </Application.Resources>
 
 </Application>

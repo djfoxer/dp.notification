@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Windows.Foundation;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI;
+using djfoxer.dp.notification.App.Helpers;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,8 +17,21 @@ namespace djfoxer.dp.notification.App.View
         public LoginPage()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize = new Size { Height = 780, Width = 500 };
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            ApplicationView.PreferredLaunchViewSize = new Size { Height = 780, Width = 500 };
+
+
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            // Title Bar Content Area
+            titleBar.BackgroundColor = Color.FromArgb(0, 91, 150, 56);
+            titleBar.ForegroundColor = Colors.White;
+
+            // Title Bar Button Area
+            titleBar.ButtonBackgroundColor = Color.FromArgb(0, 91, 150, 56);
+            titleBar.ButtonForegroundColor = Colors.White;
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

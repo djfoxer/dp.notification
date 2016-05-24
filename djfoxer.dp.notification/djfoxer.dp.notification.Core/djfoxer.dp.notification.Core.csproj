@@ -113,7 +113,10 @@
     <Compile Include="Enum.cs" />
     <Compile Include="Logic\IStorageService.cs" />
     <Compile Include="Logic\StorageService.cs" />
+    <Compile Include="Model\BlogStatistic.cs" />
     <Compile Include="Model\Notification.cs" />
+    <Compile Include="Model\Post.cs" />
+    <Compile Include="Model\SelectedOrder.cs" />
     <Compile Include="Model\Settings.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

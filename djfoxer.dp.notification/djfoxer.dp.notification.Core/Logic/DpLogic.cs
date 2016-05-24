@@ -1,8 +1,10 @@
 ﻿using djfoxer.dp.notification.Core.Model;
+using HtmlAgilityPack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -122,5 +124,114 @@ namespace djfoxer.dp.notification.Core.Logic
             return await ChangeStatusNotify(id, "deleteNotify");
         }
 
+        public async Task<BlogStatistic> GetFullBlogStatistic()
+        {
+            BlogStatistic stat = new BlogStatistic();
+            stat.Posts = new List<Post>();
+
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    await GetBlogMainStatistics(1, stat.Posts, httpClient);
+                    await GetBlogCounters(stat.Posts, httpClient);
+                }
+                stat.RefreshMainStatistics();
+            }
+            catch (Exception)
+            {
+            }
+
+            return stat;
+        }
+
+public async Task<List<Post>> GetBlogCounters(List<Post> postLink, HttpClient httpClient)
+{
+    HtmlDocument doc = new HtmlDocument();
+
+    foreach (var post in postLink)
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, new Uri(post.Url));
+        var response = await httpClient.SendRequestAsync(request);
+
+        doc.LoadHtml(await response.Content.ReadAsStringAsync());
+
+        var details = doc.DocumentNode.Descendants("section")
+            .Where(d => d.Attributes.Contains("class") &&
+            d.Attributes["class"].Value.Contains("user-info")).LastOrDefault();
+        if (details != null)
+        {
+            var divs = details.Descendants("div").ToList();
+            if (divs.Count >= 12)
+            {
+                post.VisitorsCounter = int.Parse(divs[9].InnerText);
+                post.CommentsCounter = int.Parse(divs[12].InnerText);
+                post.DateLastModification = DateTime.ParseExact(divs[5].InnerText, 
+                    "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture);
+            }
+        }
+    }
+
+    return postLink;
+}
+
+        public async Task<List<Post>> GetBlogMainStatistics(int pageNo, List<Post> postLink, HttpClient httpClient)
+        {
+
+            var request = new HttpRequestMessage(HttpMethod.Get, new Uri(Const.BlogPrefix + pageNo + ".html"));
+            var response = await httpClient.SendRequestAsync(request);
+
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(await response.Content.ReadAsStringAsync());
+
+            var divWithLinks = doc.DocumentNode.Descendants("div")
+                    .Where(d => d.Attributes.Contains("class") &&
+                    d.Attributes["class"].Value.Contains("contentText"))
+                    .FirstOrDefault();
+            if (divWithLinks != null)
+            {
+                int lastOrderId = postLink.Select(x => x.OrderId).LastOrDefault();
+
+                divWithLinks.Descendants("tr").ToList().ForEach(x =>
+                {
+                    var elemA = x.Descendants("a").FirstOrDefault();
+                    var elemSpan = x.Descendants("span").FirstOrDefault();
+
+                    if (elemA != null && elemSpan != null)
+                    {
+                        var newPost = new Post()
+                        {
+                            Title = elemA.InnerText,
+                            Url = elemA.Attributes["href"].Value,
+                            IsPublished = elemSpan.InnerText == Const.PostStatusPublished,
+                            IsHomePage = elemSpan.Attributes.Contains("class") &&
+                                elemSpan.Attributes["class"].Value.Contains(Const.PostHomePage),
+                            OrderId = ++lastOrderId
+                        };
+                        newPost.Id = newPost.Url
+                            .Split(new string[] { ",", ".html" }, StringSplitOptions.RemoveEmptyEntries)
+                                .Reverse().First();
+                        postLink.Add(newPost);
+                    }
+
+
+                });
+            }
+
+            var nextLink = doc.DocumentNode.Descendants("div")
+                .Where(d => d.Attributes.Contains("class") &&
+                    d.Attributes["class"].Value.Contains("controls"))
+                    .FirstOrDefault();
+
+            var nextUrl = (Const.BlogPrefix + (pageNo + 1) + ".html");
+
+            if (nextLink != null && nextLink.Descendants("a").Where(a => a.Attributes.Contains("href") &&
+            a.Attributes["href"].Value == nextUrl).Count() > 0)
+            {
+                await GetBlogMainStatistics((pageNo + 1), postLink, httpClient);
+            }
+
+            return postLink;
+        }
     }
 }

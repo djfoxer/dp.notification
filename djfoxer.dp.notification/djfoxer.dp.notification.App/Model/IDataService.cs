@@ -24,5 +24,7 @@ namespace djfoxer.dp.notification.App.Model
         Task<List<Notification>> SetNotificationAsOld(string notificationId);
 
         Task<List<Notification>> RemoveNotyfication(string notificationId);
+
+        Task<BlogStatistic> GetFullBlogStatistics();
     }
 }

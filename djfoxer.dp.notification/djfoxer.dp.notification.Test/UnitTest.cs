@@ -13,23 +13,19 @@ namespace djfoxer.dp.notification.Test
     public class UnitTest1
     {
         private static TestContext _testContext;
+        private static DpLogic logic = null;
 
         [ClassInitialize]
         public static void SetupTests(TestContext testContext)
         {
             _testContext = testContext;
+            logic = new DpLogic();
         }
 
-        [TestMethod]
-        public void GetNotification()
+
+        private bool Login()
         {
-
-
-
-            DpLogic logic = new DpLogic();
-            Tuple<bool,DateTime?> success = null;
-
-            logic.DeleteSessionCookie();
+            Tuple<bool, DateTime?> success = null;
 
             Task.Run(async () =>
             {
@@ -39,7 +35,23 @@ namespace djfoxer.dp.notification.Test
                     );
             }).GetAwaiter().GetResult();
 
-            Assert.AreNotEqual(success.Item1, false);
+            return success.Item1;
+        }
+
+        [TestMethod]
+        public void GetNotification()
+        {
+
+
+
+            //Tuple<bool, DateTime?> success = null;
+
+
+            logic.DeleteSessionCookie();
+
+            bool loginSuccess = Login();
+
+            Assert.AreNotEqual(loginSuccess, false);
 
             //OLD
             List<Notification> not = null;
@@ -54,6 +66,23 @@ namespace djfoxer.dp.notification.Test
             //{
             //    await logic.ReadNotify(not.FirstOrDefault().Id, cookie);
             //}).GetAwaiter().GetResult();
+
+
+        }
+
+        [TestMethod]
+        public void GetBlogStatics()
+        {
+
+            bool loginSuccess = Login();
+
+            Task.Run(async () =>
+            {
+                var x = await logic.GetFullBlogStatistic();
+            }).GetAwaiter().GetResult();
+
+
+
         }
     }
 }

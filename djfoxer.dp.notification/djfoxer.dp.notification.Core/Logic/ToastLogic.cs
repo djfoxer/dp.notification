@@ -36,13 +36,14 @@ namespace djfoxer.dp.notification.Core.Logic
                         },
                         AppLogoOverride = new ToastAppLogo()
                         {
+                            Crop = ToastImageCrop.Circle,
                             Source = new ToastImageSource(notification.Avatar)
                         }
                     },
-                    Audio = new ToastAudio()
-                    {
-                        Src = new Uri("ms-appx:///Assets/Sounds/alert_1.mp3")
-                    }
+                    //Audio = new ToastAudio()
+                    //{
+                    //    Src = new Uri("ms-appx:///Assets/Sounds/alert_1.mp3")
+                    //}
                 };
 
                 if (isForeground)

@@ -29,6 +29,16 @@ namespace djfoxer.dp.notification.App.Model
             _storageService = storageService;
         }
 
+        public async Task<BlogStatistic> GetFullBlogStatistics()
+        {
+            var user = _storageService.GetUser();
+            if (user == null)
+            {
+                return null;
+            }
+            return await _dpLogic.GetFullBlogStatistic();
+        }
+
         public async Task<List<Notification>> GetNotifications()
         {
             var user = _storageService.GetUser();
@@ -84,7 +94,7 @@ namespace djfoxer.dp.notification.App.Model
             if (notifications != null)
             {
                 var toRemove = notifications.Where(x => x.Id == notificationId).FirstOrDefault();
-                if(toRemove != null)
+                if (toRemove != null)
                 {
                     notifications.Remove(toRemove);
                     await _dpLogic.DeleteNotify(notificationId);

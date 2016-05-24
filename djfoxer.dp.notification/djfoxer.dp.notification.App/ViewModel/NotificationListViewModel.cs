@@ -20,6 +20,7 @@ using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using static djfoxer.dp.notification.Core.Enum;
 
 namespace djfoxer.dp.notification.App.ViewModel
 {
@@ -146,6 +147,70 @@ namespace djfoxer.dp.notification.App.ViewModel
 
         #region Methods
 
+        //to prevent list skipping and use animation to modify list
+        private void RefreshNotificationsList(List<Notification> freshList)
+        {
+            if (Notifications == null || Notifications.Count == 0)
+            {
+                Notifications = new ObservableCollection<Notification>(freshList);
+            }
+            else
+            {
+                if (freshList == null || freshList.Count == 0)
+                {
+                    Notifications = new ObservableCollection<Notification>();
+                }
+                else
+                {
+                    List<string> existId = Notifications.Select(x => x.Id).ToList();
+
+                    //remove
+                    var toRemove = existId.Where(x => !freshList.Exists(n => n.Id == x));
+
+                    foreach (var rem in toRemove)
+                    {
+                        Notifications.Remove(Notifications.Where(x => x.Id == rem).FirstOrDefault());
+                    }
+
+                    //add
+                    var toAdd = freshList.Where(x => !existId.Exists(n => n == x.Id)).ToList();
+
+                    var toAddNew = toAdd.Where(x => x.Status == NotificationStatus.New).ToList().OrderBy(x => x.AddedDate);
+                    foreach (var newItem in toAddNew)
+                    {
+                        Notifications.Insert(0, newItem);
+                    }
+
+                    var toAddOld = toAdd.Where(x => x.Status == NotificationStatus.Old).ToList().OrderBy(x => x.AddedDate);
+                    var lastOld = Notifications.LastOrDefault(x => x.Status == NotificationStatus.New);
+                    int firstOldIndex = 0;
+                    if (lastOld != null)
+                    {
+                        firstOldIndex = Notifications.IndexOf(lastOld);
+                    }
+
+                    foreach (var newItem in toAddNew)
+                    {
+                        Notifications.Insert(firstOldIndex, newItem);
+                    }
+
+                    //update rest
+                    var toUdpate = freshList.Where(x => !toAdd.Exists(n => n.Id == x.Id)).ToList();
+
+                    foreach (var up in toUdpate)
+                    {
+                        var toUpOne = Notifications.Where(x => x.Id == up.Id && x.Status != up.Status).FirstOrDefault();
+                        if (toUpOne != null)
+                        {
+                            int index = Notifications.IndexOf(toUpOne);
+                            Notifications.RemoveAt(index);
+                            Notifications.Insert(firstOldIndex, up);
+                        }
+                    }
+                }
+            }
+        }
+
         private void RefreshView()
         {
             if (LoadingScreen == Visibility.Visible)
@@ -170,13 +235,14 @@ namespace djfoxer.dp.notification.App.ViewModel
             Task.Run(async () =>
             {
                 _dataService.RefreshData();
-                var notifications = new ObservableCollection<Notification>(await _dataService.GetNotifications());
+                var notifications = await _dataService.GetNotifications();
 
-                var fresNotifications = _dataService.SaveNotifications(notifications.ToList());
+                var fresNotifications = _dataService.SaveNotifications(notifications);
 
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
-                    Notifications = notifications;
+                    RefreshNotificationsList(notifications);
+
 
                     fresNotifications.ToList().ForEach(n => _toastLogic.ShowToast(n, true));
                     //_toastLogic.ShowToast(notifications.First(), true);
@@ -191,7 +257,10 @@ namespace djfoxer.dp.notification.App.ViewModel
         }
         #endregion
 
+
+
         #region Commands
+
 
 
         private RelayCommand _OpenDPLink;
@@ -208,6 +277,64 @@ namespace djfoxer.dp.notification.App.ViewModel
             }
         }
 
+        private RelayCommand _DePeszaInfo;
+
+        public RelayCommand DePeszaInfo
+        {
+            get
+            {
+                return _DePeszaInfo ?? (_DePeszaInfo = new RelayCommand(async () =>
+                {
+                    await _dialogService.ShowMessage("DePesza\n\nAutor aplikacji: Grzegorz \"djfoxer\" Jamiołkowski\nLogo: Jarek Uliczka ", "Informacje");
+                }));
+
+            }
+        }
+
+        private RelayCommand _OpenStatistics;
+
+        public RelayCommand OpenStatistics
+        {
+            get
+            {
+                return _OpenStatistics ?? (_OpenStatistics = new RelayCommand(() =>
+               {
+                   _navigationService.NavigateTo(ViewModelLocator.StatisticsPage);
+               }));
+
+            }
+        }
+
+        private RelayCommand _RemoveSelected;
+
+        public RelayCommand RemoveSelected
+        {
+            get
+            {
+                return _RemoveSelected ?? (_RemoveSelected = new RelayCommand(async () =>
+                {
+                    var notification = SelectedNotification;
+                    if (notification != null)
+                    {
+
+                        await _dialogService.ShowMessage("Czy chcesz się usunąc powidomienie?", "Usunięcie", "Tak", "Nie", (confirm) =>
+                         {
+                             if (confirm)
+                             {
+                                 Notifications.Remove(notification);
+                                 _dataService.RemoveNotyfication(notification.Id);
+                                 RefreshView();
+                             }
+                         });
+
+
+
+                    }
+                }));
+
+            }
+        }
+
         private RelayCommand _openLink;
 
         public RelayCommand OpenLink
@@ -219,28 +346,32 @@ namespace djfoxer.dp.notification.App.ViewModel
                   var notification = SelectedNotification;
                   if (notification != null)
                   {
-                      if (notification.Status == Core.Enum.NotificationStatus.New)
+                      if (!string.IsNullOrEmpty(notification.TargetUrl))
                       {
-                          if (!string.IsNullOrEmpty(notification.TargetUrl))
-                          {
-                              await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
-                          }
-                          Notifications = new ObservableCollection<Notification>(await _dataService.SetNotificationAsOld(notification.Id));
+                          await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
                       }
-                      else
-                      {
-                          await _dialogService.ShowMessage("Czy chcesz się usunąc powidomienie?", "Usunięcie", "Tak", "Nie", (confirm) =>
-                           {
-                               if (confirm)
-                               {
-                                   Notifications.Remove(notification);
-                                   _dataService.RemoveNotyfication(notification.Id);
-                               }
-                           });
+                      //if (notification.Status == Core.Enum.NotificationStatus.New)
+                      //{
+                      //    if (!string.IsNullOrEmpty(notification.TargetUrl))
+                      //    {
+                      //        await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
+                      //    }
+                      //    Notifications = new ObservableCollection<Notification>(await _dataService.SetNotificationAsOld(notification.Id));
+                      //}
+                      //else
+                      //{
+                      //    await _dialogService.ShowMessage("Czy chcesz się usunąc powidomienie?", "Usunięcie", "Tak", "Nie", (confirm) =>
+                      //     {
+                      //         if (confirm)
+                      //         {
+                      //             Notifications.Remove(notification);
+                      //             _dataService.RemoveNotyfication(notification.Id);
+                      //         }
+                      //     });
 
-                      }
+                      //}
 
-                      RefreshView();
+
                   }
               }));
 
@@ -315,25 +446,34 @@ namespace djfoxer.dp.notification.App.ViewModel
                         {
                             menu.Commands.Add(new UICommand("Otwórz link", async (command) =>
                             {
-                                await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
+                                if (!string.IsNullOrEmpty(notification.TargetUrl))
+                                {
+                                    await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
+                                }
                             }));
                         }
                         if (notification.Status == Core.Enum.NotificationStatus.New)
                         {
-                            menu.Commands.Add(new UICommand("Ustaw jako przeczytany", (command) =>
+                            menu.Commands.Add(new UICommand("Ustaw jako przeczytany", async (command) =>
                             {
-                                notification.Status = Core.Enum.NotificationStatus.Old;
-                                Notifications = _Notifications;
+                                Notifications = new ObservableCollection<Notification>(await _dataService.SetNotificationAsOld(notification.Id));
+
                             }));
                         }
 
-                        if (notification.Status == Core.Enum.NotificationStatus.Old)
+
+                        menu.Commands.Add(new UICommand("Usuń", async (command) =>
                         {
-                            menu.Commands.Add(new UICommand("Usuń", (command) =>
+                            await _dialogService.ShowMessage("Czy chcesz się usunąc powidomienie?", "Usunięcie", "Tak", "Nie", (confirm) =>
                             {
-                                Notifications = new ObservableCollection<Notification>(_Notifications.Where(x => x.Id != notification.Id).ToList());
-                            }));
-                        }
+                                if (confirm)
+                                {
+                                    Notifications.Remove(notification);
+                                    _dataService.RemoveNotyfication(notification.Id);
+                                }
+                            });
+                        }));
+
 
                         //  var chosenCommand = await menu.ShowForSelectionAsync(GetElementRect((FrameworkElement)sender));
                     }
@@ -354,25 +494,36 @@ namespace djfoxer.dp.notification.App.ViewModel
                 {
                     menu.Commands.Add(new UICommand("Otwórz link", async (command) =>
                     {
-                        await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
+                        if (!string.IsNullOrEmpty(notification.TargetUrl))
+                        {
+                            await Launcher.LaunchUriAsync(new Uri(notification.TargetUrl));
+                        }
+                        Notifications = new ObservableCollection<Notification>(await _dataService.SetNotificationAsOld(notification.Id));
+
                     }));
                 }
                 if (notification.Status == Core.Enum.NotificationStatus.New)
                 {
-                    menu.Commands.Add(new UICommand("Ustaw jako przeczytany", (command) =>
+                    menu.Commands.Add(new UICommand("Ustaw jako przeczytany", async (command) =>
                     {
-                        notification.Status = Core.Enum.NotificationStatus.Old;
-                        Notifications = _Notifications;
+
+                        Notifications = new ObservableCollection<Notification>(await _dataService.SetNotificationAsOld(notification.Id));
                     }));
                 }
 
-                if (notification.Status == Core.Enum.NotificationStatus.Old)
+                menu.Commands.Add(new UICommand("Usuń", async (command) =>
                 {
-                    menu.Commands.Add(new UICommand("Usuń", (command) =>
+                    await _dialogService.ShowMessage("Czy chcesz się usunąc powidomienie?", "Usunięcie", "Tak", "Nie", (confirm) =>
                     {
-                        Notifications = new ObservableCollection<Notification>(_Notifications.Where(x => x.Id != notification.Id).ToList());
-                    }));
-                }
+                        if (confirm)
+                        {
+                            Notifications.Remove(notification);
+                            _dataService.RemoveNotyfication(notification.Id);
+                            RefreshView();
+                        }
+                    });
+                }));
+
 
                 var chosenCommand = await menu.ShowForSelectionAsync(GetElementRect((FrameworkElement)sender));
             }
