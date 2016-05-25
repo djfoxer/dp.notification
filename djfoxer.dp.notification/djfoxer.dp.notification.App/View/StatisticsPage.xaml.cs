@@ -52,6 +52,7 @@ namespace djfoxer.dp.notification.App.View
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
                 Vm.GoBackToNotificationsList();
+                e.Handled = true;
             };
 
         }
