@@ -18,6 +18,16 @@ Unit Test project *djfoxer.dp.notification.Test* has to have *test.runsettings* 
 
 ##Changelog:
 
+
+**0.3.5** - 17.06.2016
+- fixed double new notifications bug ([Podwójne powiadomienie #1](https://github.com/djfoxer/dp.notification/issues/1))
+- hide status bar (at top) on mobile
+- delete notifications button remove all notifications
+- add redirect to Registation on login page
+- fix Toast title in CommentFollow notification
+- fix background notifications on W10 Redstone branch
+
+
 **0.3.0** - 25.05.2016 ([description](http://www.dobreprogramy.pl/djfoxer/Nowa-DePesza-statystyki-z-bloga-i-odswiezony-interfejs,73499.html))
 - new logo
 - added full statistics for blog data
