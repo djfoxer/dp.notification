@@ -13,10 +13,12 @@ Other links:
 * my blog [http://www.dobreprogramy.pl/djfoxer](http://www.dobreprogramy.pl/djfoxer)
 * my homepage [http://djfoxer.pl/](http://djfoxer.pl/)
 
+######Before building
+Unit Test project *djfoxer.dp.notification.Test* has to have *test.runsettings* file with test run parameters (login and password to [dobreprogramy.pl](http://www.dobreprogramy.pl/)). Read [description](http://www.dobreprogramy.pl/djfoxer/Konfigurujemy-Unit-Test-w-Universal-Windows-Platform,73645.html) about how to configure test settings.
 
 ##Changelog:
 
-**0.3.0** - 25.05.2016
+**0.3.0** - 25.05.2016 ([description](http://www.dobreprogramy.pl/djfoxer/Nowa-DePesza-statystyki-z-bloga-i-odswiezony-interfejs,73499.html))
 - new logo
 - added full statistics for blog data
 - refresh notifications list (blur, opacity, animations)
