@@ -14,7 +14,7 @@ namespace djfoxer.dp.notification.App.View
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NotificationListPage
+    public sealed partial class NotificationListPage : BasePage
     {
 
         public NotificationListViewModel Vm;
@@ -22,30 +22,20 @@ namespace djfoxer.dp.notification.App.View
         public NotificationListPage()
         {
             this.InitializeComponent();
+            HideBackButton();
             Vm = (NotificationListViewModel)DataContext;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-            ApplicationView.PreferredLaunchViewSize = new Size { Height = 780, Width = 500 };
 
-
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            // Title Bar Content Area
-            titleBar.BackgroundColor = Color.FromArgb(0, 91, 150, 56);
-            titleBar.ForegroundColor = Colors.White;
-
-            // Title Bar Button Area
-            titleBar.ButtonBackgroundColor = Color.FromArgb(0, 91, 150, 56);
-            titleBar.ButtonForegroundColor = Colors.White;
-
-            
-
+            SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
+            {
+                e.Handled = false;
+            };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             Vm.LoadNotification();
             base.OnNavigatedTo(e);
-
+            this.Frame.BackStack.Clear();
 
         }
 

@@ -93,10 +93,8 @@ namespace djfoxer.dp.notification.App.Model
             var notifications = await GetNotifications();
             if (notifications != null)
             {
-                var toRemove = notifications.Where(x => x.Id == notificationId).FirstOrDefault();
-                if (toRemove != null)
+                if (notifications.RemoveAll(x => x.Id == notificationId) > 0)
                 {
-                    notifications.Remove(toRemove);
                     await _dpLogic.DeleteNotify(notificationId);
                     _storageService.SaveNotifications(notifications);
                 }

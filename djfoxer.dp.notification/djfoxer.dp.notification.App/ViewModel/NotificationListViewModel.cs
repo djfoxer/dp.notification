@@ -169,7 +169,11 @@ namespace djfoxer.dp.notification.App.ViewModel
 
                     foreach (var rem in toRemove)
                     {
-                        Notifications.Remove(Notifications.Where(x => x.Id == rem).FirstOrDefault());
+                        var remItems = Notifications.Where(x => x.Id == rem);
+                        foreach (var remItem in remItems)
+                        {
+                            Notifications.Remove(remItem);
+                        }
                     }
 
                     //add
@@ -189,7 +193,7 @@ namespace djfoxer.dp.notification.App.ViewModel
                         firstOldIndex = Notifications.IndexOf(lastOld);
                     }
 
-                    foreach (var newItem in toAddNew)
+                    foreach (var newItem in toAddOld)
                     {
                         Notifications.Insert(firstOldIndex, newItem);
                     }
@@ -400,6 +404,37 @@ namespace djfoxer.dp.notification.App.ViewModel
 
             }
         }
+
+
+        private RelayCommand _RemoveAll;
+
+        public RelayCommand RemoveAll
+        {
+            get
+            {
+                return _RemoveAll ?? (_RemoveAll = new RelayCommand(() =>
+                {
+                    _dialogService.ShowMessage("Czy chcesz usunąć wszystkie powiadomienia?", "Usunięcie", "Tak", "Nie", (confirm) =>
+                    {
+                        if (confirm)
+                        {
+                            var oldNotifications = Notifications.ToList();
+                            foreach (var oldItem in oldNotifications)
+                            {
+                                _dataService.RemoveNotyfication(oldItem.Id);
+                                Notifications.Remove(oldItem);
+                            }
+
+                            RefreshView();
+                        }
+                    });
+
+
+                }));
+
+            }
+        }
+
 
         private RelayCommand _RemoveOld;
 

@@ -1,4 +1,4 @@
-﻿<Page
+﻿<base:BasePage
     x:Class="djfoxer.dp.notification.App.View.LoginPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,6 +7,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
     xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:base="using:djfoxer.dp.notification.App.Helpers"
     mc:Ignorable="d"   
     DataContext="{Binding Login, Source={StaticResource Locator}}">
     <Grid Background="White">
@@ -70,11 +71,11 @@
                                 Command="{Binding FocusPass,Mode=OneWay}" 
                                     CommandParameter="{Binding args}"
                                 />
-                               
+
                             </Interactions:EventTriggerBehavior>
-                           
+
                         </Interactivity:Interaction.Behaviors>
-                       
+
                     </PasswordBox>
                     <ProgressRing
                     Margin="0,20,0,0"
@@ -90,6 +91,21 @@
                     BorderBrush="White"
                     Padding="10"/>
 
+                    <TextBlock 
+                    Margin="0,40,0,0" 
+                    TextWrapping="WrapWholeWords"
+                        TextAlignment="Center"
+                     Foreground="White"
+                    >
+                       <Interactivity:Interaction.Behaviors>
+                    <Interactions:EventTriggerBehavior
+                            EventName="Tapped">
+                        <Interactions:InvokeCommandAction
+                                Command="{Binding OpenDPRegister}" 
+                                />
+                    </Interactions:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors> 
+                        Nie posidasz jeszcze konta na portalu? Kliknij tutaj, aby przejść do <Run FontWeight="Bold">rejestracji</Run>.</TextBlock>
                 </StackPanel>
 
 
@@ -98,4 +114,4 @@
 
         </Grid>
     </Grid>
-</Page>
+</base:BasePage>

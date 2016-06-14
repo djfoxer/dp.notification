@@ -1,4 +1,4 @@
-﻿<Page
+﻿<base:BasePage
     x:Class="djfoxer.dp.notification.App.View.NotificationListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,6 +7,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
     xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:base="using:djfoxer.dp.notification.App.Helpers"
     mc:Ignorable="d"
     x:Name="root"
     DataContext="{Binding NotyficationList, Source={StaticResource Locator}}">
@@ -16,13 +17,12 @@
             Background="#5b9638" 
 
             Foreground="White">
-
-            <AppBarButton  Icon="Delete" Label="Usuń przeczytane" Foreground="White"  >
+            <AppBarButton  Icon="Delete" Label="Usuń wszystkie" Foreground="White"  >
                 <Interactivity:Interaction.Behaviors>
                     <Interactions:EventTriggerBehavior
                             EventName="Click">
                         <Interactions:InvokeCommandAction
-                                Command="{Binding RemoveOld}"
+                                Command="{Binding RemoveAll}"
                                 />
                     </Interactions:EventTriggerBehavior>
                 </Interactivity:Interaction.Behaviors>
@@ -315,4 +315,4 @@
 
         </Grid>
     </Grid>
-</Page>
+</base:BasePage>

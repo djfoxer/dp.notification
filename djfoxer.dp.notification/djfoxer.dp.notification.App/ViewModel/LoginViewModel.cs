@@ -1,4 +1,5 @@
 ﻿using djfoxer.dp.notification.App.Model;
+using djfoxer.dp.notification.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Views;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -48,6 +50,21 @@ namespace djfoxer.dp.notification.App.ViewModel
                 return _login ?? (_login = new RelayCommand(async () =>
                 {
                     await Signin();
+                }));
+
+            }
+        }
+
+
+        private RelayCommand _OpenDPRegister;
+
+        public RelayCommand OpenDPRegister
+        {
+            get
+            {
+                return _OpenDPRegister ?? (_OpenDPRegister = new RelayCommand(async () =>
+                {
+                    await Launcher.LaunchUriAsync(new Uri(Const.UrlRegister));
                 }));
 
             }

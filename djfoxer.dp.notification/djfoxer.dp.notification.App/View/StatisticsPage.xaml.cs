@@ -25,7 +25,7 @@ namespace djfoxer.dp.notification.App.View
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class StatisticsPage
+    public sealed partial class StatisticsPage : BasePage
     {
 
         public StatisticsViewModel Vm;
@@ -34,20 +34,7 @@ namespace djfoxer.dp.notification.App.View
         {
             this.InitializeComponent();
             Vm = (StatisticsViewModel)DataContext;
-
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-            ApplicationView.PreferredLaunchViewSize = new Size { Height = 780, Width = 500 };
-
-
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            // Title Bar Content Area
-            titleBar.BackgroundColor = Color.FromArgb(0, 91, 150, 56);
-            titleBar.ForegroundColor = Colors.White;
-
-            // Title Bar Button Area
-            titleBar.ButtonBackgroundColor = Color.FromArgb(0, 91, 150, 56);
-            titleBar.ButtonForegroundColor = Colors.White;
+            ShowBackButton();
 
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {

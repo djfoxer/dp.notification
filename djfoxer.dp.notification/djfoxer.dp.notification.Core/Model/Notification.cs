@@ -82,7 +82,7 @@ namespace djfoxer.dp.notification.Core.Model
                         FixAvatarUrl();
                         break;
                     case NotificationType.CommentFollow:
-                        Title = "Polubiono Twoją wypowiedź";
+                        Title = "Nowy komentarz";
                         CustomText = "skomentował wpis, który dodano do ulubionych";
                         FixAvatarUrl();
                         break;

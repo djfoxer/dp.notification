@@ -19,6 +19,16 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
+        private const string _UrlRegister = "https://ssl.dobreprogramy.pl/Rejestracja.html";
+
+        public static string UrlRegister
+        {
+            get
+            {
+                return _UrlRegister;
+            }
+        }
+
         private const string _UrlDomain3 = "http://www.dobreprogramy.pl/";
 
         public static string UrlFullAddress

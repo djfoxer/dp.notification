@@ -21,6 +21,23 @@ namespace djfoxer.dp.notification.Core.Logic
                     Launch = isForeground ? "fore" : notification.TargetUrl,
                     Visual = new ToastVisual()
                     {
+                        //BindingGeneric = new ToastBindingGeneric()
+                        //{
+                        //    AppLogoOverride = new ToastGenericAppLogo()
+                        //    {
+                        //        HintCrop = ToastGenericAppLogoCrop.Circle,
+                        //        Source = notification.Avatar
+                        //    },
+                        //    Attribution = new ToastGenericAttributionText()
+                        //    {
+                        //        Text = notification.Title + " - " + notification.FullText,
+                                
+
+                        //    },
+                        //},
+
+                       
+
                         TitleText = new ToastText()
                         {
                             Text = notification.Title
