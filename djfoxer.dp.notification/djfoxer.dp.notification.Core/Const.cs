@@ -29,7 +29,7 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
-        private const string _UrlDomain3 = "http://www.dobreprogramy.pl/";
+        private const string _UrlDomain3 = "https://www.dobreprogramy.pl/";
 
         public static string UrlFullAddress
         {
@@ -39,7 +39,7 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
-        private const string _BlogPrefix = "http://www.dobreprogramy.pl/MojBlog,";
+        private const string _BlogPrefix = "https://www.dobreprogramy.pl/MojBlog,";
 
         public static string BlogPrefix
         {
@@ -99,7 +99,7 @@ namespace djfoxer.dp.notification.Core
             }
         }
 
-        private const string UrlNotify = "http://www.dobreprogramy.pl/Providers/NotifyHelper.ashx";
+        private const string UrlNotify = "https://www.dobreprogramy.pl/Providers/NotifyHelper.ashx";
 
         public static string UrlNotifyWithTimeStamp
         {

@@ -109,9 +109,9 @@ namespace djfoxer.dp.notification.Core.Model
         {
             if (!string.IsNullOrWhiteSpace(Avatar) && !Avatar.EndsWith("svg"))
             {
-                if (!Avatar.StartsWith("http"))
+                if (!Avatar.StartsWith("https"))
                 {
-                    Avatar = "http:" + Avatar;
+                    Avatar = "https:" + Avatar;
                 }
             }
             else
