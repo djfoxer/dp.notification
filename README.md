@@ -1,6 +1,6 @@
 ![alt logo](http://djfoxer.pl/DePesza/depeszalogo3.png)
-#DePesza 
-###dp.notification
+# DePesza 
+### dp.notification
 Universal App (Windows 10 &amp; Windows 10 Mobile) for [dobreprogramy.pl's](http://www.dobreprogramy.pl/) users with active account.
 
 Main features of DePesza:
@@ -13,10 +13,10 @@ Other links:
 * my blog [http://www.dobreprogramy.pl/djfoxer](http://www.dobreprogramy.pl/djfoxer)
 * my homepage [http://djfoxer.pl/](http://djfoxer.pl/)
 
-######Before building
+###### Before building
 Unit Test project *djfoxer.dp.notification.Test* has to have *test.runsettings* file with test run parameters (login and password to [dobreprogramy.pl](http://www.dobreprogramy.pl/)). Read [description](http://www.dobreprogramy.pl/djfoxer/Konfigurujemy-Unit-Test-w-Universal-Windows-Platform,73645.html) about how to configure test settings.
 
-##Changelog:
+## Changelog:
 
 
 **0.3.5** - 17.06.2016
